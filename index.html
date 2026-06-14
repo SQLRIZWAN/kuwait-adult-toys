@@ -3,323 +3,369 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kuwait Pleasure - Premium Wellness</title>
+  <title>Kuwait Pleasure | Premium Wellness</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    body{
-      font-family:'Inter',sans-serif;
-      background:#0a0a0f;
-      color:#f0ebe3;
-      overflow-x:hidden
-    }
+
     :root{
+      --bg:#0c0c14;
+      --bg2:#14141e;
+      --bg3:#1c1c2a;
       --gold:#d4a853;
-      --gold2:#f0d080;
+      --gold2:#e8c46a;
+      --gold3:#b8923a;
       --pink:#e84a7a;
-      --bg2:#12121a;
-      --bg3:#1a1a28;
-      --text2:#999;
-      --radius:14px
+      --blue:#4a7ae8;
+      --text:#f0ebe3;
+      --text2:#8a8a9a;
+      --radius:16px;
+      --shadow:0 8px 40px rgba(0,0,0,.5)
     }
+
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-track{background:var(--bg)}
+    ::-webkit-scrollbar-thumb{background:var(--gold3);border-radius:3px}
+    ::selection{background:var(--gold);color:#000}
 
     /* HEADER */
     header{
-      position:fixed;top:0;left:0;right:0;z-index:100;
-      background:rgba(10,10,15,.95);backdrop-filter:blur(15px);
-      border-bottom:1px solid rgba(212,168,83,.08);
+      position:fixed;top:0;left:0;right:0;z-index:1000;
+      background:rgba(12,12,20,.92);backdrop-filter:blur(24px);
+      border-bottom:1px solid rgba(212,168,83,.06);
       display:flex;align-items:center;justify-content:space-between;
-      padding:0 20px;height:64px
+      padding:0 32px;height:72px
     }
     .logo{
-      font-size:20px;font-weight:800;
-      background:linear-gradient(135deg,#d4a853,#f0d080);
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent
+      font-family:'Playfair Display',serif;
+      font-size:22px;font-weight:700;
+      background:linear-gradient(135deg,var(--gold),var(--gold2));
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      letter-spacing:.5px
     }
-    .logo small{-webkit-text-fill-color:#777;font-weight:400;font-size:12px}
-    nav{display:flex;gap:4px}
+    .logo span{-webkit-text-fill-color:var(--text2);font-weight:400;font-size:13px}
+    nav{display:flex;gap:2px}
     nav a{
-      color:#999;text-decoration:none;padding:6px 14px;
-      border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;transition:.2s
+      color:var(--text2);text-decoration:none;padding:8px 18px;
+      border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;
+      transition:all .3s;position:relative
     }
-    nav a:hover,nav a.active{color:var(--gold);background:rgba(212,168,83,.1)}
+    nav a:hover,nav a.active{color:var(--gold);background:rgba(212,168,83,.08)}
 
     /* HERO */
     .hero{
       min-height:100vh;display:flex;flex-direction:column;
       align-items:center;justify-content:center;text-align:center;
-      padding:100px 20px 60px
+      padding:120px 24px 80px;position:relative;overflow:hidden
+    }
+    .hero::before{
+      content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+      background:radial-gradient(ellipse at 25% 50%,rgba(212,168,83,.04) 0%,transparent 50%),
+                 radial-gradient(ellipse at 75% 50%,rgba(232,74,122,.04) 0%,transparent 50%);
+      animation:glow 10s ease-in-out infinite alternate
+    }
+    @keyframes glow{0%{transform:translate(0,0)}100%{transform:translate(-30px,-20px) rotate(2deg)}}
+    .hero-content{position:relative;z-index:1;max-width:700px}
+    .hero-badge{
+      display:inline-block;padding:6px 18px;border:1px solid rgba(212,168,83,.2);
+      border-radius:20px;font-size:11px;color:var(--gold);letter-spacing:2px;
+      text-transform:uppercase;margin-bottom:20px;font-weight:500
     }
     .hero h1{
-      font-size:clamp(32px,7vw,72px);font-weight:800;line-height:1.1;
-      margin-bottom:12px
+      font-family:'Playfair Display',serif;
+      font-size:clamp(36px,7vw,72px);line-height:1.08;margin-bottom:16px
     }
-    .hero h1 span{background:linear-gradient(135deg,#d4a853,#f0d080);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    .hero p{color:#999;font-size:clamp(14px,2vw,18px);margin-bottom:32px;max-width:450px}
-    .hero-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+    .hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .hero p{
+      color:var(--text2);font-size:clamp(15px,2vw,18px);line-height:1.6;
+      margin:0 auto 36px;max-width:480px
+    }
+    .hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
     .hero-btn{
-      padding:14px 36px;border-radius:50px;border:none;font-size:15px;
-      font-weight:700;cursor:pointer;transition:.3s;font-family:inherit;
-      display:flex;align-items:center;gap:10px;letter-spacing:.5px
+      padding:16px 40px;border-radius:60px;border:none;
+      font-size:15px;font-weight:700;cursor:pointer;transition:all .4s;
+      font-family:'Inter',sans-serif;display:flex;align-items:center;gap:12px;
+      text-transform:uppercase;letter-spacing:1px;position:relative;overflow:hidden
     }
+    .hero-btn::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;border-radius:60px;opacity:0;transition:.4s}
+    .hero-btn:hover::before{opacity:1}
+    .hero-btn:hover{transform:translateY(-4px)}
     .hero-btn.men{
-      background:linear-gradient(135deg,#1a2a4a,#2a4a6a);
-      color:#8ab4f8;box-shadow:0 4px 20px rgba(74,122,232,.2)
+      background:linear-gradient(135deg,#162240,#1e3050);
+      color:#7aacf8;box-shadow:0 4px 24px rgba(74,122,232,.15)
     }
+    .hero-btn.men:hover{box-shadow:0 12px 40px rgba(74,122,232,.3)}
     .hero-btn.women{
-      background:linear-gradient(135deg,#3a1a2a,#5a2a4a);
-      color:#f88ab4;box-shadow:0 4px 20px rgba(232,74,122,.2)
+      background:linear-gradient(135deg,#3a1525,#4e1e38);
+      color:#f88abe;box-shadow:0 4px 24px rgba(232,74,122,.15)
     }
-    .hero-btn:hover{transform:translateY(-3px)}
+    .hero-btn.women:hover{box-shadow:0 12px 40px rgba(232,74,122,.3)}
+    .hero-btn i{font-size:18px}
 
-    /* SECTION */
-    .section-title{
-      text-align:center;padding:0 20px 8px;font-size:clamp(22px,4vw,36px);font-weight:700
+    .scroll-indicator{
+      position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
+      color:var(--text2);font-size:20px;animation:bounce 2s infinite;z-index:1;cursor:pointer
     }
-    .section-sub{text-align:center;color:#999;font-size:14px;padding:0 20px 32px}
+    @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+    /* SECTION HEADER */
+    .section{padding:80px 24px 0;max-width:1100px;margin:0 auto}
+    .section-header{text-align:center;margin-bottom:40px}
+    .section-header h2{
+      font-family:'Playfair Display',serif;
+      font-size:clamp(28px,4vw,42px);margin-bottom:8px
+    }
+    .section-header p{color:var(--text2);font-size:15px}
 
     /* CAT TABS */
     .cat-tabs{
-      display:flex;justify-content:center;gap:8px;padding:0 20px 24px;flex-wrap:wrap
+      display:flex;justify-content:center;gap:8px;margin-bottom:32px;flex-wrap:wrap
     }
     .cat-tab{
-      padding:10px 28px;border-radius:50px;border:1px solid rgba(212,168,83,.15);
-      background:transparent;color:#999;font-size:13px;font-weight:600;
-      cursor:pointer;transition:.3s;font-family:inherit
-    }
-    .cat-tab.active{
-      background:linear-gradient(135deg,#b8923a,#d4a853);
-      border-color:transparent;color:#000
+      padding:10px 28px;border-radius:60px;border:1px solid rgba(212,168,83,.12);
+      background:transparent;color:var(--text2);font-size:13px;font-weight:600;
+      cursor:pointer;transition:all .3s;font-family:'Inter',sans-serif
     }
     .cat-tab:hover{border-color:var(--gold);color:var(--gold)}
+    .cat-tab.active{
+      background:linear-gradient(135deg,var(--gold3),var(--gold));
+      border-color:transparent;color:#000
+    }
 
     /* PRODUCT GRID */
     .products{
-      display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
-      gap:16px;padding:0 20px 60px;max-width:1000px;margin:0 auto
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+      gap:20px;padding:0 24px 80px;max-width:1100px;margin:0 auto
     }
-    @media(min-width:768px){.products{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}}
+    @media(max-width:600px){.products{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;padding:0 12px 60px}}
 
     .product{
-      background:var(--bg2);border:1px solid rgba(212,168,83,.06);
+      background:var(--bg2);border:1px solid rgba(212,168,83,.05);
       border-radius:var(--radius);overflow:hidden;cursor:pointer;
-      transition:.4s;position:relative
+      transition:all .5s;position:relative;group:true
     }
-    .product:hover{transform:translateY(-6px);border-color:rgba(212,168,83,.15);box-shadow:0 20px 40px rgba(0,0,0,.4)}
-    .product .img{
-      width:100%;aspect-ratio:1;
-      display:flex;align-items:center;justify-content:center;
-      font-size:56px;position:relative
+    .product:hover{transform:translateY(-8px);border-color:rgba(212,168,83,.15);box-shadow:0 24px 60px rgba(0,0,0,.5)}
+    .product-img{
+      width:100%;aspect-ratio:1;display:flex;align-items:center;
+      justify-content:center;position:relative;overflow:hidden;
+      background:linear-gradient(135deg,var(--bg3),var(--bg2))
     }
-    .product .img .badge{
-      position:absolute;top:10px;left:10px;
-      padding:3px 10px;border-radius:6px;font-size:10px;font-weight:700;
-      background:var(--gold);color:#000
+    .product-img .icon{
+      font-size:64px;transition:all .5s;filter:drop-shadow(0 4px 20px rgba(0,0,0,.3))
     }
-    .product .info{padding:14px}
-    .product .info .tag{font-size:11px;color:#777;margin-bottom:2px}
-    .product .info .tag i{margin-right:4px}
-    .product .info h3{font-size:14px;font-weight:600;margin-bottom:4px}
-    .product .info .stars{margin-bottom:4px;display:flex;gap:2px;align-items:center}
-    .product .info .stars i{font-size:11px;color:var(--gold)}
-    .product .info .stars span{font-size:11px;color:#777;margin-left:4px}
-    .product .info .price{font-size:20px;font-weight:700;color:var(--gold)}
-    .product .info .price small{font-size:13px;font-weight:400;color:#777}
-    .product .view-btn{
-      position:absolute;bottom:14px;right:14px;
-      width:38px;height:38px;border-radius:50%;border:none;
-      background:var(--gold);color:#000;cursor:pointer;
-      font-size:14px;transition:.3s;opacity:0;transform:scale(.8)
+    .product:hover .product-img .icon{transform:scale(1.1) rotate(-5deg)}
+    .product-badge{
+      position:absolute;top:12px;left:12px;
+      padding:4px 12px;border-radius:8px;font-size:10px;font-weight:700;
+      text-transform:uppercase;letter-spacing:.5px;z-index:2
     }
-    .product:hover .view-btn{opacity:1;transform:scale(1)}
-    .product .view-btn:hover{background:var(--gold2)}
+    .product-badge.men{background:rgba(74,122,232,.15);color:#7aacf8;border:1px solid rgba(74,122,232,.2)}
+    .product-badge.women{background:rgba(232,74,122,.15);color:#f88abe;border:1px solid rgba(232,74,122,.2)}
+    .product-info{padding:16px}
+    .product-info .tag{font-size:11px;color:var(--text2);margin-bottom:4px;display:flex;align-items:center;gap:4px}
+    .product-info h3{font-size:15px;font-weight:600;margin-bottom:6px;line-height:1.3}
+    @media(max-width:600px){.product-info h3{font-size:13px}}
+    .product-stars{display:flex;gap:2px;align-items:center;margin-bottom:6px}
+    .product-stars i{font-size:11px;color:var(--gold)}
+    .product-stars span{font-size:11px;color:var(--text2);margin-left:4px}
+    .product-price{font-size:22px;font-weight:800;color:var(--gold)}
+    .product-price small{font-size:13px;font-weight:400;color:var(--text2)}
+    .product-btn{
+      position:absolute;bottom:16px;right:16px;
+      width:42px;height:42px;border-radius:50%;border:none;
+      background:linear-gradient(135deg,var(--gold3),var(--gold));
+      color:#000;font-size:16px;cursor:pointer;transition:all .4s;
+      opacity:0;transform:scale(.7) translateY(10px);
+      display:flex;align-items:center;justify-content:center
+    }
+    .product:hover .product-btn{opacity:1;transform:scale(1) translateY(0)}
+    .product-btn:hover{box-shadow:0 4px 20px rgba(212,168,83,.4)}
 
-    /* MODAL OVERLAY */
-    .modal{
-      position:fixed;top:0;left:0;right:0;bottom:0;z-index:500;
-      background:rgba(0,0,0,.8);backdrop-filter:blur(8px);
+    /* MODAL */
+    .modal-overlay{
+      position:fixed;top:0;left:0;right:0;bottom:0;z-index:2000;
+      background:rgba(0,0,0,.85);backdrop-filter:blur(12px);
       display:none;align-items:center;justify-content:center;
-      padding:16px;overflow-y:auto
+      padding:20px;overflow-y:auto
     }
-    .modal.open{display:flex}
+    .modal-overlay.open{display:flex}
     .modal-box{
       background:var(--bg2);border:1px solid rgba(212,168,83,.08);
-      border-radius:20px;width:100%;max-width:420px;
-      max-height:95vh;overflow-y:auto;position:relative;animation:mIn .25s ease
+      border-radius:24px;width:100%;max-width:480px;
+      max-height:92vh;overflow-y:auto;position:relative;
+      animation:modalIn .3s ease
     }
-    @keyframes mIn{from{opacity:0;transform:scale(.93) translateY(15px)}to{opacity:1;transform:scale(1) translateY(0)}}
-    .modal-box.wide{max-width:750px}
+    .modal-box.wide{max-width:860px}
+    @keyframes modalIn{from{opacity:0;transform:scale(.93) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
     .modal-close{
-      position:absolute;top:12px;right:12px;z-index:10;
-      width:36px;height:36px;border-radius:50%;border:none;
-      background:rgba(255,255,255,.08);color:#fff;font-size:16px;
-      cursor:pointer;transition:.2s
+      position:absolute;top:14px;right:14px;z-index:10;
+      width:38px;height:38px;border-radius:50%;border:none;
+      background:rgba(255,255,255,.06);color:#fff;font-size:16px;
+      cursor:pointer;transition:.3s;display:flex;align-items:center;justify-content:center
     }
-    .modal-close:hover{background:rgba(255,255,255,.15)}
+    .modal-close:hover{background:rgba(255,255,255,.12)}
 
-    /* MODAL CONTENT */
-    .modal-body{padding:24px}
-    .modal-body .flex{
-      display:grid;grid-template-columns:1fr;gap:20px
-    }
-    @media(min-width:768px){.modal-body .flex{grid-template-columns:1fr 1fr}}
+    .modal-body{padding:28px}
+    .modal-grid{display:grid;grid-template-columns:1fr;gap:24px}
+    @media(min-width:768px){.modal-grid{grid-template-columns:1fr 1fr}}
 
-    /* IMAGE/3D AREA */
-    .view-area{
-      background:var(--bg3);border-radius:12px;overflow:hidden;
-      min-height:300px;position:relative
+    /* VIEWER */
+    .viewer{
+      background:var(--bg3);border-radius:14px;overflow:hidden;
+      min-height:340px;position:relative
     }
-    .view-area .main-icon{
+    .viewer-main{
       display:flex;align-items:center;justify-content:center;
-      height:100%;min-height:280px;font-size:80px
+      min-height:320px;font-size:80px;transition:.3s
     }
-    #three-box{
-      width:100%;height:300px;cursor:grab;border-radius:12px;overflow:hidden
+    #three-container{
+      width:100%;height:340px;cursor:grab;display:none;border-radius:14px;overflow:hidden
     }
-    #three-box:active{cursor:grabbing}
+    #three-container:active{cursor:grabbing}
+    .viewer-tabs{
+      display:flex;gap:4px;padding:10px 12px;flex-wrap:wrap
+    }
+    .viewer-tab{
+      padding:6px 16px;border-radius:8px;border:none;
+      background:rgba(255,255,255,.04);color:var(--text2);font-size:12px;
+      font-weight:500;cursor:pointer;transition:.2s;font-family:'Inter',sans-serif
+    }
+    .viewer-tab.active{background:var(--gold);color:#000}
+    .viewer-tab:hover:not(.active){color:#fff;background:rgba(255,255,255,.08)}
 
-    .view-tabs{
-      display:flex;gap:4px;margin-top:8px;flex-wrap:wrap
-    }
-    .view-tab{
-      padding:6px 14px;border-radius:8px;border:none;
-      background:var(--bg3);color:#777;font-size:12px;font-weight:500;
-      cursor:pointer;transition:.2s;font-family:inherit
-    }
-    .view-tab.active{background:var(--gold);color:#000}
-    .view-tab:hover{color:#fff}
+    /* DETAIL SIDE */
+    .detail{padding:4px 0}
+    .detail h2{font-family:'Playfair Display',serif;font-size:clamp(20px,3vw,30px);margin-bottom:6px}
+    .detail-stars{display:flex;gap:3px;align-items:center;margin-bottom:10px}
+    .detail-stars i{font-size:15px;color:var(--gold)}
+    .detail-stars .avg{font-weight:700;margin-left:8px;font-size:16px}
+    .detail-stars .cnt{color:var(--text2);font-size:13px}
+    .detail-desc{color:var(--text2);font-size:14px;line-height:1.7;margin-bottom:16px}
+    .detail-price{font-size:36px;font-weight:800;color:var(--gold);margin-bottom:20px}
+    .detail-price small{font-size:16px;font-weight:400;color:var(--text2)}
 
-    /* DETAILS */
-    .detail-area h2{font-size:clamp(20px,3vw,28px);font-weight:700;margin-bottom:6px}
-    .detail-area .stars{display:flex;gap:3px;align-items:center;margin-bottom:8px}
-    .detail-area .stars i{font-size:14px;color:var(--gold)}
-    .detail-area .stars .avg{font-weight:700;margin-left:6px;font-size:15px}
-    .detail-area .stars .cnt{color:#777;font-size:13px}
-    .detail-area .desc{color:#999;font-size:14px;line-height:1.6;margin-bottom:12px}
-    .detail-area .price-big{font-size:32px;font-weight:800;color:var(--gold);margin-bottom:16px}
-    .detail-area .price-big small{font-size:16px;font-weight:400;color:#777}
-    .btn-buy{
-      width:100%;padding:15px;border-radius:12px;border:none;
-      background:linear-gradient(135deg,#b8923a,#d4a853);
+    .btn-primary{
+      width:100%;padding:16px;border-radius:12px;border:none;
+      background:linear-gradient(135deg,var(--gold3),var(--gold));
       color:#000;font-size:16px;font-weight:700;cursor:pointer;
-      transition:.3s;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px
+      transition:all .3s;font-family:'Inter',sans-serif;
+      display:flex;align-items:center;justify-content:center;gap:10px
     }
-    .btn-buy:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(212,168,83,.3)}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(212,168,83,.3)}
 
     /* REVIEWS */
-    .rev-list{max-height:250px;overflow-y:auto}
-    .rev-item{padding:12px 0;border-bottom:1px solid rgba(212,168,83,.06)}
+    .rev-section{margin-top:18px}
+    .rev-section h4{font-size:14px;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+    .rev-list{max-height:240px;overflow-y:auto;padding-right:4px}
+    .rev-item{padding:12px 0;border-bottom:1px solid rgba(212,168,83,.05)}
     .rev-item:last-child{border-bottom:none}
-    .rev-item .top{display:flex;align-items:center;gap:10px;margin-bottom:4px}
-    .rev-item .av{
-      width:32px;height:32px;border-radius:50%;background:var(--bg3);
-      display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700
+    .rev-top{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+    .rev-av{
+      width:32px;height:32px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-size:12px;font-weight:700;background:var(--bg3)
     }
-    .rev-item .nm{font-weight:600;font-size:13px}
-    .rev-item .dt{color:#777;font-size:11px}
-    .rev-item .tx{font-size:13px;color:#999;line-height:1.4}
-    .rev-item .s{display:flex;gap:2px;margin-bottom:3px}
-    .rev-item .s i{font-size:10px;color:var(--gold)}
+    .rev-name{font-weight:600;font-size:13px}
+    .rev-date{color:var(--text2);font-size:11px}
+    .rev-stars{display:flex;gap:2px;margin-bottom:4px}
+    .rev-stars i{font-size:10px;color:var(--gold)}
+    .rev-text{font-size:13px;color:var(--text2);line-height:1.4}
 
     /* FORM */
-    .form{padding:0 24px 24px}
-    .form h2{font-size:24px;font-weight:700;margin-bottom:4px}
-    .form .sub{color:#999;font-size:13px;margin-bottom:20px}
-    .fg{margin-bottom:14px}
-    .fg label{display:block;font-size:12px;font-weight:600;color:#999;margin-bottom:4px}
+    .form-wrap{padding:0 28px 28px}
+    .form-wrap h2{font-size:24px;font-weight:700;margin-bottom:4px}
+    .form-wrap .sub{color:var(--text2);font-size:13px;margin-bottom:20px}
+
+    .fg{margin-bottom:16px}
+    .fg label{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
     .fg input,.fg textarea{
-      width:100%;padding:11px 14px;border-radius:10px;
-      border:1px solid rgba(212,168,83,.12);
+      width:100%;padding:12px 16px;border-radius:10px;
+      border:1px solid rgba(212,168,83,.1);
       background:var(--bg3);color:#fff;font-size:14px;
-      font-family:inherit;transition:.3s;outline:none
+      font-family:'Inter',sans-serif;transition:.3s;outline:none
     }
-    .fg input:focus,.fg textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,168,83,.08)}
-    .fg textarea{resize:vertical;min-height:70px}
-    .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media(max-width:500px){.row2{grid-template-columns:1fr}}
+    .fg input:focus,.fg textarea:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(212,168,83,.06)}
+    .fg textarea{resize:vertical;min-height:80px}
+    .row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:500px){.row-2{grid-template-columns:1fr}}
 
     /* MAP */
-    #map-box{
-      width:100%;height:200px;border-radius:10px;
-      border:1px solid rgba(212,168,83,.12);z-index:1;overflow:hidden
+    #order-map{
+      width:100%;height:220px;border-radius:10px;
+      border:1px solid rgba(212,168,83,.1);z-index:1;overflow:hidden
     }
-    .pin-txt{font-size:11px;color:#777;margin-top:4px;display:flex;align-items:center;gap:6px}
-    .pin-txt i{color:var(--pink)}
+    .loc-info{font-size:12px;color:var(--text2);margin-top:6px;display:flex;align-items:center;gap:6px}
+    .loc-info i{color:var(--pink)}
 
     /* PAYMENT */
-    .pay-box{
-      background:var(--bg3);border-radius:12px;padding:16px;margin-bottom:16px
+    .pay-card{
+      background:var(--bg3);border-radius:14px;padding:20px;margin-bottom:20px;
+      border:1px solid rgba(212,168,83,.06)
     }
-    .pay-box .r{display:flex;justify-content:space-between;padding:6px 0;font-size:14px}
-    .pay-box .r .l{color:#999}
-    .pay-box .r .v{font-weight:600}
-    .pay-num{font-size:22px;font-weight:800;color:var(--gold);letter-spacing:2px}
-    .pay-name{color:#fff;font-size:15px;margin-top:2px}
-    .pay-total{font-size:24px;font-weight:800;color:var(--gold)}
+    .pay-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0}
+    .pay-row+.pay-row{border-top:1px solid rgba(212,168,83,.05)}
+    .pay-label{color:var(--text2);font-size:13px}
+    .pay-number{
+      font-size:24px;font-weight:800;color:var(--gold);letter-spacing:2px
+    }
+    .pay-owner{color:#fff;font-size:15px;font-weight:500}
+    .pay-total{font-size:26px;font-weight:800;color:var(--gold)}
 
-    .up-area{
-      border:2px dashed rgba(212,168,83,.15);border-radius:12px;
-      padding:20px;text-align:center;cursor:pointer;transition:.3s;margin-bottom:14px
+    .upload-box{
+      border:2px dashed rgba(212,168,83,.12);border-radius:12px;
+      padding:24px;text-align:center;cursor:pointer;transition:.3s;margin-bottom:16px
     }
-    .up-area:hover{border-color:var(--gold);background:rgba(212,168,83,.03)}
-    .up-area i{font-size:30px;color:var(--gold);margin-bottom:6px}
-    .up-area p{font-size:13px;color:#999}
-    .up-area .fn{color:var(--gold);font-weight:600;margin-top:4px;font-size:12px}
-    .up-area input{display:none}
+    .upload-box:hover{border-color:var(--gold);background:rgba(212,168,83,.03)}
+    .upload-box i{font-size:34px;color:var(--gold);margin-bottom:8px;display:block}
+    .upload-box p{font-size:13px;color:var(--text2)}
+    .upload-box .fname{color:var(--gold);font-weight:600;margin-top:6px;font-size:12px}
+    .upload-box input{display:none}
 
-    .order-sum{
-      background:var(--bg3);border-radius:10px;padding:14px;margin:14px 0;font-size:13px
+    .order-summary{
+      background:var(--bg3);border-radius:10px;padding:16px;margin:16px 0;font-size:13px
     }
-    .order-sum .r{display:flex;justify-content:space-between;padding:3px 0}
-    .order-sum .tot{font-weight:700;color:var(--gold);font-size:17px;border-top:1px solid rgba(212,168,83,.1);padding-top:6px;margin-top:4px}
+    .order-summary .r{display:flex;justify-content:space-between;padding:4px 0}
+    .order-summary .total{font-weight:700;color:var(--gold);font-size:18px;border-top:1px solid rgba(212,168,83,.08);padding-top:8px;margin-top:4px}
 
     /* SUCCESS */
-    .suc{padding:50px 24px;text-align:center}
-    .suc .ck{
-      width:70px;height:70px;border-radius:50%;background:rgba(212,168,83,.12);
-      display:flex;align-items:center;justify-content:center;margin:0 auto 16px;
-      font-size:28px;color:var(--gold)
+    .success-box{padding:60px 28px;text-align:center}
+    .success-box .check-icon{
+      width:80px;height:80px;border-radius:50%;
+      background:rgba(212,168,83,.1);display:flex;align-items:center;
+      justify-content:center;margin:0 auto 20px;font-size:32px;color:var(--gold)
     }
-    .suc h2{font-size:26px;margin-bottom:6px}
-    .suc p{color:#999;font-size:14px;margin-bottom:20px;max-width:350px;margin-left:auto;margin-right:auto}
-    .suc .det{
-      background:var(--bg3);border-radius:12px;padding:14px;margin-bottom:16px;text-align:left;font-size:13px
+    .success-box h2{font-family:'Playfair Display',serif;font-size:28px;margin-bottom:8px}
+    .success-box .msg{color:var(--text2);font-size:14px;margin-bottom:24px;max-width:360px;margin-left:auto;margin-right:auto}
+    .success-details{
+      background:var(--bg3);border-radius:12px;padding:16px;
+      margin-bottom:20px;text-align:left;font-size:13px
     }
-    .suc .det .r{display:flex;justify-content:space-between;padding:3px 0}
-    .suc .det .r .l{color:#999}
-
-    /* LOADING */
-    .spin{
-      width:32px;height:32px;border:3px solid rgba(212,168,83,.1);
-      border-top:3px solid var(--gold);border-radius:50%;
-      animation:sp .7s linear infinite;margin:20px auto
-    }
-    @keyframes sp{to{transform:rotate(360deg)}}
+    .success-details .r{display:flex;justify-content:space-between;padding:4px 0}
 
     /* FOOTER */
-    footer{text-align:center;padding:30px 20px;color:#555;font-size:12px;border-top:1px solid rgba(212,168,83,.05)}
+    footer{
+      text-align:center;padding:40px 24px;color:var(--text2);
+      font-size:13px;border-top:1px solid rgba(212,168,83,.04)
+    }
+    footer span{color:var(--gold)}
 
     .hidden{display:none!important}
-    .mt-8{margin-top:8px}
+    .mt-12{margin-top:12px}
 
-    @media(max-width:480px){
-      header{padding:0 12px;height:56px}
-      .logo{font-size:17px}
-      nav a{padding:4px 10px;font-size:11px}
-      .modal-body{padding:16px}
-      .form{padding:0 16px 16px}
-      .products{gap:10px}
-      .product .info h3{font-size:12px}
-      .pay-num{font-size:18px}
-    }
+    .loading{width:36px;height:36px;border:3px solid rgba(212,168,83,.08);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;margin:30px auto}
+    @keyframes spin{to{transform:rotate(360deg)}}
   </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">Kuwait Pleasure <small>• KW</small></div>
+  <div class="logo">Kuwait<span> Pleasure</span></div>
   <nav>
     <a class="active" onclick="goHome()">Home</a>
     <a onclick="goShop('men')">Men</a>
@@ -329,370 +375,506 @@
 </header>
 
 <section class="hero">
-  <h1>Feel the<br><span>Ultimate Pleasure</span></h1>
-  <p>Premium intimate wellness products. Discreet packaging & fast delivery across Kuwait.</p>
-  <div class="hero-btns">
-    <button class="hero-btn men" onclick="goShop('men')"><i class="fas fa-mars"></i> For Men</button>
-    <button class="hero-btn women" onclick="goShop('women')"><i class="fas fa-venus"></i> For Women</button>
+  <div class="hero-content">
+    <div class="hero-badge">Since 2024 &bull; Kuwait</div>
+    <h1>Discover Your<br><em>Ultimate Pleasure</em></h1>
+    <p>Premium intimate wellness products. Discreet packaging &amp; fast delivery across all of Kuwait.</p>
+    <div class="hero-btns">
+      <button class="hero-btn men" onclick="goShop('men')"><i class="fas fa-mars"></i> For Men</button>
+      <button class="hero-btn women" onclick="goShop('women')"><i class="fas fa-venus"></i> For Women</button>
+    </div>
   </div>
+  <div class="scroll-indicator"><i class="fas fa-chevron-down"></i></div>
 </section>
 
-<div class="section-title" id="shop">Our Collection</div>
-<div class="section-sub">Premium products curated for your pleasure</div>
-
-<div class="cat-tabs">
-  <button class="cat-tab active" onclick="filterP('all')">All</button>
-  <button class="cat-tab" onclick="filterP('men')"><i class="fas fa-mars"></i> Men</button>
-  <button class="cat-tab" onclick="filterP('women')"><i class="fas fa-venus"></i> Women</button>
+<div class="section" id="shop">
+  <div class="section-header">
+    <h2>Our Collection</h2>
+    <p>Premium products curated for your pleasure</p>
+  </div>
+  <div class="cat-tabs">
+    <button class="cat-tab active" onclick="filterProducts('all')">All</button>
+    <button class="cat-tab" onclick="filterProducts('men')"><i class="fas fa-mars"></i> Men</button>
+    <button class="cat-tab" onclick="filterProducts('women')"><i class="fas fa-venus"></i> Women</button>
+  </div>
 </div>
 
-<div class="products" id="grid"></div>
+<div class="products" id="productGrid"></div>
 
-<footer>&copy; 2026 Kuwait Pleasure &bull; Premium intimate wellness &bull; Kuwait</footer>
+<footer>© 2026 Kuwait Pleasure &mdash; <span>Premium</span> intimate wellness &bull; All rights reserved</footer>
 
 <!-- DETAIL MODAL -->
-<div class="modal" id="detailModal"><div class="modal-box wide">
-  <button class="modal-close" onclick="closeM('detailModal')"><i class="fas fa-times"></i></button>
-  <div class="modal-body">
-    <div class="flex">
-      <div>
-        <div class="view-area" id="viewArea">
-          <div class="main-icon" id="mainIcon"><i class="fas fa-cube" style="color:rgba(212,168,83,.2)"></i></div>
-          <div id="three-box" class="hidden"></div>
+<div class="modal-overlay" id="detailModal">
+  <div class="modal-box wide">
+    <button class="modal-close" onclick="closeModal('detailModal')"><i class="fas fa-xmark"></i></button>
+    <div class="modal-body">
+      <div class="modal-grid">
+        <div>
+          <div class="viewer">
+            <div class="viewer-main" id="viewerMain"><span style="font-size:90px" id="viewerEmoji"></span></div>
+            <div id="threeContainer"></div>
+            <div class="viewer-tabs">
+              <button class="viewer-tab active" onclick="showView('photo')"><i class="fas fa-image"></i> Photo</button>
+              <button class="viewer-tab" onclick="showView('3d')"><i class="fas fa-cube"></i> 3D View</button>
+              <button class="viewer-tab" onclick="showView('video')"><i class="fas fa-play"></i> Video</button>
+            </div>
+          </div>
         </div>
-        <div class="view-tabs" id="viewTabs">
-          <button class="view-tab active" onclick="switchView('icon')"><i class="fas fa-image"></i> Photo</button>
-          <button class="view-tab" onclick="switchView('three')"><i class="fas fa-cube"></i> 3D</button>
-          <button class="view-tab" onclick="switchView('video')"><i class="fas fa-play"></i> Video</button>
-        </div>
-      </div>
-      <div class="detail-area">
-        <h2 id="dTitle"></h2>
-        <div class="stars" id="dStars"></div>
-        <p class="desc" id="dDesc"></p>
-        <div class="price-big" id="dPrice"></div>
-        <button class="btn-buy" onclick="openCheckout()"><i class="fas fa-shopping-bag"></i> Buy Now</button>
-        <div style="margin-top:16px">
-          <div style="font-size:14px;font-weight:600;margin-bottom:8px;"><i class="fas fa-star"></i> Reviews & Ratings</div>
-          <div class="rev-list" id="revList"></div>
+        <div class="detail">
+          <h2 id="detailName"></h2>
+          <div class="detail-stars" id="detailStars"></div>
+          <p class="detail-desc" id="detailDesc"></p>
+          <div class="detail-price" id="detailPrice"></div>
+          <button class="btn-primary" onclick="openCheckout()"><i class="fas fa-shopping-bag"></i> Buy Now</button>
+          <div class="rev-section">
+            <h4><i class="fas fa-star"></i> Customer Reviews</h4>
+            <div class="rev-list" id="detailReviews"></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div></div>
+</div>
 
 <!-- CHECKOUT MODAL -->
-<div class="modal" id="checkoutModal"><div class="modal-box">
-  <button class="modal-close" onclick="closeM('checkoutModal')"><i class="fas fa-times"></i></button>
-  <div class="form">
-    <h2>Delivery Details</h2>
-    <p class="sub">Fill your info to complete the order</p>
-    <div class="row2">
-      <div class="fg">
-        <label>Full Name</label>
-        <input type="text" id="cName" placeholder="Your name">
+<div class="modal-overlay" id="checkoutModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('checkoutModal')"><i class="fas fa-xmark"></i></button>
+    <div class="form-wrap">
+      <h2>Delivery Details</h2>
+      <p class="sub">Fill in your information to complete the order</p>
+      <div class="row-2">
+        <div class="fg">
+          <label>Full Name</label>
+          <input type="text" id="custName" placeholder="Your full name">
+        </div>
+        <div class="fg">
+          <label>Phone Number</label>
+          <input type="tel" id="custPhone" placeholder="+965 XXXX XXXX">
+        </div>
       </div>
       <div class="fg">
-        <label>Phone Number</label>
-        <input type="tel" id="cPhone" placeholder="+965 XXXX XXXX">
+        <label>Delivery Address</label>
+        <textarea id="custAddress" placeholder="Block, Street, Building, Apartment..."></textarea>
       </div>
+      <div class="fg">
+        <label>Pin Your Location</label>
+        <div id="orderMap"></div>
+        <div class="loc-info"><i class="fas fa-map-pin"></i> <span id="mapInfo">Click on the map to pin your exact location</span></div>
+      </div>
+      <div class="order-summary" id="checkoutSummary"></div>
+      <button class="btn-primary" onclick="submitCheckout()"><i class="fas fa-credit-card"></i> Continue to Payment</button>
     </div>
-    <div class="fg">
-      <label>Delivery Address</label>
-      <textarea id="cAddr" placeholder="Block, Street, Building, Apartment..."></textarea>
-    </div>
-    <div class="fg">
-      <label>Pin your location on map</label>
-      <div id="map-box"></div>
-      <div class="pin-txt"><i class="fas fa-map-pin"></i> <span id="locTxt">Click map to pin your location</span></div>
-    </div>
-    <div class="order-sum" id="checkSum"></div>
-    <button class="btn-buy" onclick="submitCheckout()"><i class="fas fa-credit-card"></i> Continue to Payment</button>
   </div>
-</div></div>
+</div>
 
 <!-- PAYMENT MODAL -->
-<div class="modal" id="payModal"><div class="modal-box">
-  <button class="modal-close" onclick="closeM('payModal')"><i class="fas fa-times"></i></button>
-  <div class="form">
-    <h2>Complete Payment</h2>
-    <p class="sub">Pay via WAMD (Kuwait Mobile Wallet)</p>
-    <div class="pay-box">
-      <div class="r"><span class="l">WAMD Number</span><span class="pay-num">94091673</span></div>
-      <div class="r"><span class="l">Account Name</span><span class="pay-name">MOHAMMAD RIZWAN</span></div>
-      <div class="r"><span class="l">Amount</span><span class="pay-total" id="payAmt">0 KD</span></div>
+<div class="modal-overlay" id="paymentModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('paymentModal')"><i class="fas fa-xmark"></i></button>
+    <div class="form-wrap">
+      <h2>Payment</h2>
+      <p class="sub">Pay via WAMD (Kuwait Mobile Wallet)</p>
+      <div class="pay-card">
+        <div class="pay-row"><span class="pay-label">WAMD Number</span><span class="pay-number">94091673</span></div>
+        <div class="pay-row"><span class="pay-label">Account Name</span><span class="pay-owner">MOHAMMAD RIZWAN</span></div>
+        <div class="pay-row"><span class="pay-label">Total Amount</span><span class="pay-total" id="payAmount">0 KD</span></div>
+      </div>
+      <div class="fg">
+        <label>Transaction ID</label>
+        <input type="text" id="transactionId" placeholder="Enter the WAMD transaction ID">
+      </div>
+      <div class="upload-box" onclick="document.getElementById('screenshotFile').click()">
+        <i class="fas fa-cloud-arrow-up"></i>
+        <p>Upload Payment Screenshot</p>
+        <div class="fname" id="fileName"></div>
+        <input type="file" id="screenshotFile" accept="image/*">
+      </div>
+      <button class="btn-primary" onclick="submitPayment()"><i class="fas fa-check-circle"></i> Confirm &amp; Place Order</button>
     </div>
-    <div class="fg">
-      <label>Transaction ID</label>
-      <input type="text" id="transId" placeholder="Enter WAMD transaction ID">
-    </div>
-    <div class="up-area" onclick="document.getElementById('ssInput').click()">
-      <i class="fas fa-cloud-upload-alt"></i>
-      <p>Upload payment screenshot</p>
-      <div class="fn"></div>
-      <input type="file" id="ssInput" accept="image/*" capture="environment">
-    </div>
-    <button class="btn-buy" onclick="submitPay()"><i class="fas fa-check-circle"></i> Confirm & Place Order</button>
   </div>
-</div></div>
+</div>
 
 <!-- SUCCESS MODAL -->
-<div class="modal" id="successModal"><div class="modal-box" style="max-width:400px">
-  <div class="suc">
-    <div class="ck"><i class="fas fa-check"></i></div>
-    <h2>Order Placed!</h2>
-    <p>Your order has been submitted. We will contact you on WhatsApp shortly.</p>
-    <div class="det">
-      <div class="r"><span class="l">Order ID</span><span id="sOrderId" style="font-weight:600"></span></div>
-      <div class="r"><span class="l">Product</span><span id="sProduct" style="font-weight:600"></span></div>
-      <div class="r"><span class="l">Total</span><span id="sAmount" style="font-weight:700;color:var(--gold)"></span></div>
+<div class="modal-overlay" id="successModal">
+  <div class="modal-box" style="max-width:420px">
+    <div class="success-box">
+      <div class="check-icon"><i class="fas fa-check"></i></div>
+      <h2>Order Placed!</h2>
+      <p class="msg">Your order has been submitted successfully. We will contact you on WhatsApp within 24 hours.</p>
+      <div class="success-details">
+        <div class="r"><span>Order ID</span><span id="successOrder" style="font-weight:600"></span></div>
+        <div class="r"><span>Product</span><span id="successProduct" style="font-weight:600"></span></div>
+        <div class="r"><span>Total Paid</span><span id="successTotal" style="font-weight:700;color:var(--gold)"></span></div>
+      </div>
+      <button class="btn-primary" onclick="closeAll()" style="max-width:240px;margin:0 auto"><i class="fas fa-house"></i> Back to Home</button>
     </div>
-    <button class="btn-buy" onclick="closeAll()" style="max-width:220px;margin:0 auto"><i class="fas fa-home"></i> Back to Home</button>
   </div>
-</div></div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 // ===== DATA =====
-const P = [
-  {id:'m1',cat:'men',name:'Premium Vibrating Massager',price:12,desc:'High-quality silicone vibrating massager. Multiple vibration modes, waterproof, rechargeable. Perfect for solo or couple play.',rating:4.7,revs:23,emoji:'🔵'},
-  {id:'m2',cat:'men',name:'Prostate Pleasure Wand',price:15,desc:'Ergonomic prostate massager with curved tip. Silicone body, remote control, 10 vibration patterns.',rating:4.8,revs:18,emoji:'🔴'},
-  {id:'m3',cat:'men',name:'Deluxe Cock Ring Set',price:8,desc:'Set of 3 premium silicone rings. Different sizes, enhances stamina and performance.',rating:4.5,revs:31,emoji:'🟣'},
-  {id:'m4',cat:'men',name:'Ultra Stroker - Fleshlight',price:18,desc:'Realistic textured stroker with super-soft TPE material. Reusable, easy to clean.',rating:4.6,revs:27,emoji:'🟠'},
-  {id:'m5',cat:'men',name:'Masturbator Cup - Suction',price:10,desc:'Compact cup with adjustable suction. Ribbed internal texture for maximum sensation.',rating:4.4,revs:15,emoji:'🟢'},
-  {id:'m6',cat:'men',name:'Vibrating Penis Ring',price:9,desc:'Silicone vibrating ring with bullet vibe. Dual stimulation for both partners.',rating:4.3,revs:20,emoji:'🟡'},
-  {id:'w1',cat:'women',name:'Rabbit Vibrator - Dual',price:15,desc:'Premium dual-stimulation rabbit vibrator. Silicone, powerful motor, 12 functions, waterproof.',rating:4.9,revs:42,emoji:'💜'},
-  {id:'w2',cat:'women',name:'Bullet Vibrator - Compact',price:9,desc:'Discreet mini bullet vibrator. Powerful yet quiet. Perfect for clitoral stimulation.',rating:4.6,revs:35,emoji:'❤️'},
-  {id:'w3',cat:'women',name:'Silicone Dildo Set - 3pcs',price:12,desc:'Set of 3 silicone dildos in graduated sizes. Body-safe, realistic texture, suction base.',rating:4.7,revs:29,emoji:'🧡'},
-  {id:'w4',cat:'women',name:'Clit Stimulator - Air Pulse',price:18,desc:'Advanced air pulse technology. Touchless pleasure, 10 intensity levels, USB rechargeable.',rating:4.8,revs:38,emoji:'💗'},
-  {id:'w5',cat:'women',name:'Wand Massager - Cordless',price:20,desc:'Powerful cordless wand massager. Deep vibration, variable speed, silicone head.',rating:4.9,revs:45,emoji:'💖'},
-  {id:'w6',cat:'women',name:'G-Spot Vibrator - Curved',price:14,desc:'Ergonomic G-spot vibrator with curved tip. 8 vibration modes, whisper-quiet motor.',rating:4.7,revs:22,emoji:'💕'},
-  {id:'w7',cat:'women',name:'Couples Vibrator - Wearable',price:16,desc:'Wearable couples vibrator for hands-free play. Remote controlled, body-safe silicone.',rating:4.5,revs:17,emoji:'💞'},
-  {id:'w8',cat:'women',name:'Egg Vibrator - Remote',price:8,desc:'Remote control egg vibrator. Rechargeable, waterproof, 10 modes. Discreet and quiet.',rating:4.4,revs:26,emoji:'💝'}
+const PRODUCTS = [
+  {id:'m1',cat:'men',name:'Premium Vibrating Massager',price:12,desc:'High-quality silicone vibrating massager designed for men. Features multiple vibration modes, fully waterproof, USB rechargeable. Perfect for solo or couple play.',rating:4.7,revs:23,emoji:'🔵',color:'#1a2a4a'},
+  {id:'m2',cat:'men',name:'Prostate Pleasure Wand',price:15,desc:'Ergonomic prostate massager with curved tip for precise stimulation. Body-safe silicone, remote control, 10 vibration patterns. Rechargeable.',rating:4.8,revs:18,emoji:'🔴',color:'#1a2a4a'},
+  {id:'m3',cat:'men',name:'Deluxe Cock Ring Set (3pc)',price:8,desc:'Set of 3 premium silicone cock rings in graduated sizes. Enhances stamina and performance. Comfortable, body-safe materials.',rating:4.5,revs:31,emoji:'🟣',color:'#1a2a4a'},
+  {id:'m4',cat:'men',name:'Ultra Stroker - Realistic',price:18,desc:'Ultra-soft realistic textured stroker with super-soft TPE material. Reusable, easy to clean, discreet design.',rating:4.6,revs:27,emoji:'🟠',color:'#1a2a4a'},
+  {id:'m5',cat:'men',name:'Masturbator Cup - Suction',price:10,desc:'Compact masturbator cup with adjustable suction control. Ribbed internal texture for maximum sensation. Easy to clean.',rating:4.4,revs:15,emoji:'🟢',color:'#1a2a4a'},
+  {id:'m6',cat:'men',name:'Vibrating Penis Ring',price:9,desc:'Silicone vibrating cock ring with powerful bullet vibe. Provides dual stimulation for both partners. Adjustable fit.',rating:4.3,revs:20,emoji:'🟡',color:'#1a2a4a'},
+  {id:'w1',cat:'women',name:'Rabbit Vibrator - Dual',price:15,desc:'Premium dual-stimulation rabbit vibrator. Body-safe silicone, powerful motor, 12 vibration functions. Waterproof, rechargeable.',rating:4.9,revs:42,emoji:'💜',color:'#3a1a2a'},
+  {id:'w2',cat:'women',name:'Bullet Vibrator - Compact',price:9,desc:'Discreet mini bullet vibrator. Surprisingly powerful yet whisper-quiet. Perfect for clitoral stimulation. Battery included.',rating:4.6,revs:35,emoji:'❤️',color:'#3a1a2a'},
+  {id:'w3',cat:'women',name:'Silicone Dildo Set (3pc)',price:12,desc:'Set of 3 body-safe silicone dildos in graduated sizes. Realistic texture, strong suction cup base, harness compatible.',rating:4.7,revs:29,emoji:'🧡',color:'#3a1a2a'},
+  {id:'w4',cat:'women',name:'Clit Stimulator - Air Pulse',price:18,desc:'Advanced air pulse technology for touchless clitoral stimulation. 10 intensity levels, whisper quiet, USB rechargeable.',rating:4.8,revs:38,emoji:'💗',color:'#3a1a2a'},
+  {id:'w5',cat:'women',name:'Wand Massager - Cordless',price:20,desc:'Powerful cordless wand massager with deep vibration. Variable speed control, soft silicone head, long battery life.',rating:4.9,revs:45,emoji:'💖',color:'#3a1a2a'},
+  {id:'w6',cat:'women',name:'G-Spot Vibrator - Curved',price:14,desc:'Ergonomic G-spot vibrator with perfectly curved tip. 8 vibration modes, whisper-quiet motor, body-safe silicone.',rating:4.7,revs:22,emoji:'💕',color:'#3a1a2a'},
+  {id:'w7',cat:'women',name:'Couples Vibrator - Wearable',price:16,desc:'Wearable couples vibrator designed for hands-free play. Remote controlled, comfortable fit, body-safe silicone.',rating:4.5,revs:17,emoji:'💞',color:'#3a1a2a'},
+  {id:'w8',cat:'women',name:'Egg Vibrator - Remote',price:8,desc:'Remote control egg vibrator. Rechargeable, fully waterproof, 10 vibration modes. Discreet, quiet, and powerful.',rating:4.4,revs:26,emoji:'💝',color:'#3a1a2a'}
 ];
 
-const REVS = {
-  m1:[{a:'A',n:'Ahmed K.',s:5,t:'Excellent quality! Discreet packaging.',d:'2 weeks ago'}],
-  m2:[{a:'S',n:'Sultan A.',s:5,t:'Best purchase ever! Highly recommended.',d:'1 week ago'}],
-  w1:[{a:'N',n:'Noor H.',s:5,t:'Amazing! Exceeded my expectations.',d:'1 week ago'},{a:'L',n:'Layla S.',s:5,t:'Worth every dinar!',d:'2 weeks ago'}],
-  w4:[{a:'S',n:'Sara M.',s:5,t:'Incredible! A must buy.',d:'3 days ago'}],
-  w5:[{a:'H',n:'Hessa A.',s:5,t:'Powerful yet quiet. Love it!',d:'5 days ago'}]
+const REVIEWS = {
+  m1:[{a:'A',n:'Ahmed K.',s:5,t:'Excellent quality product. Discreet packaging as promised. Highly recommended!',d:'2 weeks ago'}],
+  m2:[{a:'S',n:'Sultan A.',s:5,t:'Best purchase I have made in a long time. Quality is top notch.',d:'1 week ago'}],
+  w1:[{a:'N',n:'Noor H.',s:5,t:'Absolutely amazing! Exceeded all my expectations. Worth every dinar.',d:'1 week ago'},{a:'L',n:'Layla S.',s:5,t:'Best rabbit vibrator I have ever owned. Fast delivery too!',d:'2 weeks ago'}],
+  w4:[{a:'S',n:'Sara M.',s:5,t:'Incredible sensation! The air pulse technology is something else. Must buy!',d:'3 days ago'}],
+  w5:[{a:'H',n:'Hessa A.',s:5,t:'Powerful yet quiet. Great for full body massage. Love the cordless design.',d:'5 days ago'}]
 };
 
 // ===== STATE =====
-let cur = null, cat = 'all', mkr = null, lmap = null, loc = null, th = null;
+let currentProduct = null, activeCategory = 'all', threeScene = null, threeReady = false;
+let orderMap = null, orderMarker = null, mapLocation = null;
 
-function stars(r){
-  let s='';
-  for(let i=1;i<=5;i++) s+=`<i class="fas fa-star${i<=r?'':(i-.5<=r?'-half-alt':'')}"></i>`;
+// ===== RENDER PRODUCTS =====
+function renderProducts(category) {
+  const grid = document.getElementById('productGrid');
+  const filtered = category === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.cat === category);
+  grid.innerHTML = filtered.map(p => `
+    <div class="product" onclick="openDetail('${p.id}')">
+      <div class="product-img" style="background:linear-gradient(135deg, ${p.color}33, ${p.color}11)">
+        <span class="icon">${p.emoji}</span>
+        <span class="product-badge ${p.cat}">${p.cat === 'men' ? 'Men' : 'Women'}</span>
+      </div>
+      <div class="product-info">
+        <div class="tag"><i class="fas fa-${p.cat === 'men' ? 'mars' : 'venus'}"></i> ${p.cat === 'men' ? 'Men' : 'Women'}</div>
+        <h3>${p.name}</h3>
+        <div class="product-stars">${stars(p.rating, 11)}<span>(${p.revs})</span></div>
+        <div class="product-price">${p.price} <small>KD</small></div>
+      </div>
+      <button class="product-btn" onclick="event.stopPropagation();openDetail('${p.id}')"><i class="fas fa-eye"></i></button>
+    </div>
+  `).join('');
+}
+
+function stars(rating, size = 11) {
+  let s = '';
+  for (let i = 1; i <= 5; i++) {
+    if (i <= rating) s += `<i class="fas fa-star" style="font-size:${size}px"></i>`;
+    else if (i - 0.5 <= rating) s += `<i class="fas fa-star-half-alt" style="font-size:${size}px"></i>`;
+    else s += `<i class="fa-regular fa-star" style="font-size:${size}px;color:var(--text2)"></i>`;
+  }
   return s;
 }
 
-// ===== GRID =====
-function render(c){
-  const g=document.getElementById('grid');
-  const f=c==='all'?P:P.filter(p=>p.cat===c);
-  g.innerHTML=f.map(p=>`
-    <div class="product" onclick="openD('${p.id}')">
-      <div class="img" style="background:linear-gradient(135deg,${p.cat==='men'?'#1a2a4a,#2a4a6a':'#3a1a2a,#5a2a4a'})">
-        <span style="font-size:64px;filter:drop-shadow(0 4px 20px rgba(0,0,0,.3))">${p.emoji}</span>
-        <span class="badge">${p.cat==='men'?'MEN':'WOMEN'}</span>
-      </div>
-      <div class="info">
-        <div class="tag"><i class="fas fa-${p.cat==='men'?'mars':'venus'}"></i> ${p.cat==='men'?'Men':'Women'}</div>
-        <h3>${p.name}</h3>
-        <div class="stars">${stars(p.rating)}<span>(${p.revs})</span></div>
-        <div class="price">${p.price} <small>KD</small></div>
-      </div>
-      <button class="view-btn" onclick="event.stopPropagation();openD('${p.id}')"><i class="fas fa-eye"></i></button>
-    </div>
-  `).join('');
+function filterProducts(cat) {
+  activeCategory = cat;
+  document.querySelectorAll('.cat-tab').forEach(t => {
+    const txt = t.textContent.trim().toLowerCase();
+    t.classList.toggle('active', txt === cat || (cat === 'all' && txt === 'all'));
+  });
+  renderProducts(cat);
 }
 
-function filterP(c){cat=c;document.querySelectorAll('.cat-tab').forEach(t=>t.classList.toggle('active',t.textContent.trim().toLowerCase().includes(c)||(c==='all'&&t.textContent.trim()==='All')));render(c)}
-function goShop(c){if(c)filterP(c);document.getElementById('shop').scrollIntoView({behavior:'smooth'})}
-function goHome(){window.scrollTo({top:0,behavior:'smooth'})}
+function goShop(cat) {
+  if (cat) filterProducts(cat);
+  document.getElementById('shop').scrollIntoView({ behavior: 'smooth' });
+}
 
-// ===== DETAIL =====
-function openD(id){
-  const p=P.find(x=>x.id===id);if(!p)return;
-  cur=p;
-  document.getElementById('dTitle').textContent=p.name;
-  document.getElementById('dDesc').textContent=p.desc;
-  document.getElementById('dPrice').innerHTML=`${p.price} <small>KD</small>`;
-  document.getElementById('dStars').innerHTML=`${stars(p.rating)}<span class="avg">${p.rating}</span><span class="cnt"> (${p.revs} reviews)</span>`;
-  const rl=document.getElementById('revList');
-  const rr=REVS[id]||[{a:'V',n:'Verified Buyer',s:5,t:'Great product! Fast delivery.',d:'1 week ago'}];
-  rl.innerHTML=rr.map(r=>`
+function goHome() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ===== DETAIL MODAL =====
+function openDetail(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  if (!p) return;
+  currentProduct = p;
+  document.getElementById('detailName').textContent = p.name;
+  document.getElementById('detailDesc').textContent = p.desc;
+  document.getElementById('detailPrice').innerHTML = `${p.price} <small>KD</small>`;
+  document.getElementById('detailStars').innerHTML = `${stars(p.rating)} <span class="avg">${p.rating}</span> <span class="cnt">(${p.revs} reviews)</span>`;
+  document.getElementById('viewerEmoji').textContent = p.emoji;
+
+  const rl = document.getElementById('detailReviews');
+  const revs = REVIEWS[id] || [{a:'V',n:'Verified Buyer',s:5,t:'Great product! Fast delivery across Kuwait.',d:'1 week ago'}];
+  rl.innerHTML = revs.map(r => `
     <div class="rev-item">
-      <div class="top"><div class="av">${r.a}</div><div><div class="nm">${r.n}</div><div class="dt">${r.d}</div></div></div>
-      <div class="s">${stars(r.s)}</div>
-      <div class="tx">${r.t}</div>
+      <div class="rev-top"><div class="rev-av">${r.a}</div><div><div class="rev-name">${r.n}</div><div class="rev-date">${r.d}</div></div></div>
+      <div class="rev-stars">${stars(r.s, 10)}</div>
+      <div class="rev-text">${r.t}</div>
     </div>
   `).join('');
-  switchView('icon');
+
+  showView('photo');
+  killThree();
   document.getElementById('detailModal').classList.add('open');
-  document.body.style.overflow='hidden';
+  document.body.style.overflow = 'hidden';
 }
 
-function switchView(v){
-  document.querySelectorAll('.view-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelector(`.view-tab[onclick*="${v}"]`)?.classList.add('active');
-  const icon=document.getElementById('mainIcon'),three=document.getElementById('three-box');
-  icon.classList.add('hidden');three.classList.add('hidden');
-  if(v==='icon'){icon.classList.remove('hidden');icon.innerHTML=`<span style="font-size:100px;filter:drop-shadow(0 8px 30px rgba(0,0,0,.4))">${cur?cur.emoji:'📦'}</span>`}
-  else if(v==='three'){three.classList.remove('hidden');initThree()}
-  else{
-    icon.classList.remove('hidden');
-    icon.innerHTML=`<div style="text-align:center"><i class="fas fa-play-circle" style="font-size:60px;color:var(--gold);margin-bottom:10px;display:block"></i><span style="color:#777;font-size:13px">Product video demonstration</span></div>`;
+function showView(view) {
+  document.querySelectorAll('.viewer-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.viewer-tab[onclick*="${view}"]`)?.classList.add('active');
+  const main = document.getElementById('viewerMain');
+  const three = document.getElementById('threeContainer');
+  main.style.display = 'flex';
+  three.style.display = 'none';
+  if (view === 'photo') {
+    main.innerHTML = `<span style="font-size:90px">${currentProduct ? currentProduct.emoji : '📦'}</span>`;
+  } else if (view === '3d') {
+    main.style.display = 'none';
+    three.style.display = 'block';
+    initThreeJS();
+  } else {
+    main.innerHTML = `<div style="text-align:center"><i class="fas fa-circle-play" style="font-size:56px;color:var(--gold);margin-bottom:12px;display:block"></i><span style="color:var(--text2);font-size:14px">Product video demonstration<br><small style="font-size:12px;color:#666">Available upon request</small></span></div>`;
   }
 }
 
 // ===== THREE.JS =====
-let thReady=false;
-function initThree(){
-  if(thReady)return;
-  const c=document.getElementById('three-box');if(!c)return;
-  const w=c.clientWidth||300,h=c.clientHeight||300;
-  const s=new THREE.Scene();s.background=new THREE.Color(0x12121a);
-  const ca=new THREE.PerspectiveCamera(45,w/h,.1,100);ca.position.set(3,2,5);ca.lookAt(0,0,0);
-  const r=new THREE.WebGLRenderer({antialias:true,alpha:true});
-  r.setSize(w,h);r.setPixelRatio(Math.min(window.devicePixelRatio,2));
-  c.innerHTML='';c.appendChild(r.domElement);
-  const al=new THREE.AmbientLight(0x404060);s.add(al);
-  const dl=new THREE.DirectionalLight(0xffffff,1);dl.position.set(5,10,7);s.add(dl);
-  const dl2=new THREE.DirectionalLight(0xd4a853,.3);dl2.position.set(-5,0,5);s.add(dl2);
-  const cl=cur?cur.cat==='men'?'#4a7ae8':'#e84a7a':'#d4a853';
-  const g=new THREE.TorusKnotGeometry(1,.3,100,16);
-  const m=new THREE.MeshPhysicalMaterial({color:cl,metalness:.3,roughness:.2,clearcoat:.1,transparent:true,opacity:.9});
-  const mesh=new THREE.Mesh(g,m);s.add(mesh);
-  const pg=new THREE.BufferGeometry();
-  const pc=200;const po=new Float32Array(pc*3);
-  for(let i=0;i<pc*3;i++)po[i]=(Math.random()-.5)*10;
-  pg.setAttribute('position',new THREE.BufferAttribute(po,3));
-  const pm=new THREE.PointsMaterial({color:0xd4a853,size:.02,transparent:true,opacity:.5});
-  const pt=new THREE.Points(pg,pm);s.add(pt);
-  let ai;
-  function an(){ai=requestAnimationFrame(an);mesh.rotation.x+=.005;mesh.rotation.y+=.01;pt.rotation.y+=.0005;r.render(s,ca)}
-  an();
-  function rs(){const w2=c.clientWidth||300,h2=c.clientHeight||300;ca.aspect=w2/h2;ca.updateProjectionMatrix();r.setSize(w2,h2)}
-  window.addEventListener('resize',rs);
-  th={s,ca,r,mesh,ai,rs,c};thReady=true;
+function initThreeJS() {
+  if (threeReady) return;
+  const container = document.getElementById('threeContainer');
+  if (!container) return;
+  const w = container.clientWidth || 400;
+  const h = 340;
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x1c1c2a);
+  const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 100);
+  camera.position.set(3, 2, 5);
+  camera.lookAt(0, 0, 0);
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(w, h);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  container.innerHTML = '';
+  container.appendChild(renderer.domElement);
+
+  const ambient = new THREE.AmbientLight(0x404060);
+  scene.add(ambient);
+  const dir = new THREE.DirectionalLight(0xffffff, 1);
+  dir.position.set(5, 10, 7);
+  scene.add(dir);
+  const dir2 = new THREE.DirectionalLight(0xd4a853, 0.3);
+  dir2.position.set(-5, 0, 5);
+  scene.add(dir2);
+  const fill = new THREE.PointLight(0x4a7ae8, 0.2);
+  fill.position.set(0, 5, 0);
+  scene.add(fill);
+
+  const color = currentProduct ? currentProduct.color : '#d4a853';
+  const geom = new THREE.TorusKnotGeometry(1, 0.3, 100, 16);
+  const mat = new THREE.MeshPhysicalMaterial({
+    color, metalness: 0.3, roughness: 0.2, clearcoat: 0.15,
+    transparent: true, opacity: 0.92
+  });
+  const mesh = new THREE.Mesh(geom, mat);
+  scene.add(mesh);
+
+  const pg = new THREE.BufferGeometry();
+  const pc = 200;
+  const pos = new Float32Array(pc * 3);
+  for (let i = 0; i < pc * 3; i++) pos[i] = (Math.random() - 0.5) * 10;
+  pg.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const pm = new THREE.PointsMaterial({ color: 0xd4a853, size: 0.02, transparent: true, opacity: 0.4 });
+  const pts = new THREE.Points(pg, pm);
+  scene.add(pts);
+
+  let anim;
+  function animate() {
+    anim = requestAnimationFrame(animate);
+    mesh.rotation.x += 0.005;
+    mesh.rotation.y += 0.012;
+    pts.rotation.y += 0.0003;
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  function onResize() {
+    const w2 = container.clientWidth || 400;
+    camera.aspect = w2 / 340;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w2, 340);
+  }
+  window.addEventListener('resize', onResize);
+
+  threeScene = { anim, renderer, onResize };
+  threeReady = true;
 }
 
-function killThree(){
-  if(th){cancelAnimationFrame(th.ai);window.removeEventListener('resize',th.rs);th.r.dispose();if(th.c)th.c.innerHTML='';th=null;thReady=false}
+function killThree() {
+  if (threeScene) {
+    cancelAnimationFrame(threeScene.anim);
+    window.removeEventListener('resize', threeScene.onResize);
+    threeScene.renderer.dispose();
+    threeScene = null;
+    threeReady = false;
+  }
 }
 
 // ===== CHECKOUT =====
-function openCheckout(){
-  closeM('detailModal');
-  setTimeout(()=>{
-    if(!cur)return;
-    document.getElementById('checkSum').innerHTML=`
-      <div class="r"><span>${cur.name}</span><span>${cur.price} KD</span></div>
-      <div class="r"><span>Delivery</span><span>2 KD</span></div>
-      <div class="r tot"><span>Total</span><span>${cur.price+2} KD</span></div>`;
-    document.getElementById('payAmt').textContent=`${cur.price+2} KD`;
+function openCheckout() {
+  closeModal('detailModal');
+  setTimeout(() => {
+    if (!currentProduct) return;
+    const total = currentProduct.price + 2;
+    document.getElementById('checkoutSummary').innerHTML = `
+      <div class="r"><span>${currentProduct.name}</span><span>${currentProduct.price} KD</span></div>
+      <div class="r"><span>Delivery Fee</span><span>2 KD</span></div>
+      <div class="r total"><span>Total</span><span>${total} KD</span></div>
+    `;
+    document.getElementById('payAmount').textContent = `${total} KD`;
     document.getElementById('checkoutModal').classList.add('open');
-    document.body.style.overflow='hidden';
-    setTimeout(initMap,300);
-  },300);
+    document.body.style.overflow = 'hidden';
+    setTimeout(initMap, 400);
+  }, 300);
 }
 
-function submitCheckout(){
-  const n=document.getElementById('cName').value.trim();
-  const p=document.getElementById('cPhone').value.trim();
-  const a=document.getElementById('cAddr').value.trim();
-  if(!n)return alert('Enter your full name');
-  if(!p)return alert('Enter your phone number');
-  if(!a)return alert('Enter your address');
-  closeM('checkoutModal');
-  setTimeout(()=>{document.getElementById('payModal').classList.add('open');document.body.style.overflow='hidden'},300);
+function submitCheckout() {
+  const name = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  const addr = document.getElementById('custAddress').value.trim();
+  if (!name) return alert('Please enter your full name');
+  if (!phone) return alert('Please enter your phone number');
+  if (!addr) return alert('Please enter your delivery address');
+  closeModal('checkoutModal');
+  setTimeout(() => {
+    document.getElementById('paymentModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }, 300);
 }
 
 // ===== MAP =====
-function initMap(){
-  const c=document.getElementById('map-box');if(!c)return;c.style.zIndex='1';
-  if(lmap){lmap.invalidateSize();return}
-  lmap=L.map('map-box',{zoomControl:true,attributionControl:false}).setView([29.3117,47.4818],11);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18}).addTo(lmap);
-  mkr=L.marker([29.3117,47.4818],{draggable:true}).addTo(lmap);
-  loc={lat:29.3117,lng:47.4818};
-  document.getElementById('locTxt').textContent='Kuwait City (drag to adjust)';
-  lmap.on('click',function(e){
-    if(mkr)mkr.setLatLng(e.latlng);else mkr=L.marker(e.latlng,{draggable:true}).addTo(lmap);
-    loc={lat:e.latlng.lat,lng:e.latlng.lng};
-    document.getElementById('locTxt').textContent=`Lat: ${e.latlng.lat.toFixed(4)}, Lng: ${e.latlng.lng.toFixed(4)}`
+function initMap() {
+  const container = document.getElementById('orderMap');
+  if (!container) return;
+  container.style.zIndex = '1';
+  if (orderMap) { orderMap.invalidateSize(); return; }
+  orderMap = L.map('orderMap', { zoomControl: true, attributionControl: false })
+    .setView([29.3117, 47.4818], 11);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 }).addTo(orderMap);
+  orderMarker = L.marker([29.3117, 47.4818], { draggable: true }).addTo(orderMap);
+  mapLocation = { lat: 29.3117, lng: 47.4818 };
+  document.getElementById('mapInfo').textContent = 'Kuwait City center (drag pin to adjust)';
+  orderMap.on('click', function(e) {
+    if (orderMarker) orderMarker.setLatLng(e.latlng);
+    else orderMarker = L.marker(e.latlng, { draggable: true }).addTo(orderMap);
+    mapLocation = { lat: e.latlng.lat, lng: e.latlng.lng };
+    document.getElementById('mapInfo').textContent = `${e.latlng.lat.toFixed(4)}°N, ${e.latlng.lng.toFixed(4)}°E`;
   });
-  if(mkr)mkr.on('dragend',function(e){
-    const pos=e.target.getLatLng();loc={lat:pos.lat,lng:pos.lng};
-    document.getElementById('locTxt').textContent=`Lat: ${pos.lat.toFixed(4)}, Lng: ${pos.lng.toFixed(4)}`
+  orderMarker.on('dragend', function(e) {
+    const pos = e.target.getLatLng();
+    mapLocation = { lat: pos.lat, lng: pos.lng };
+    document.getElementById('mapInfo').textContent = `${pos.lat.toFixed(4)}°N, ${pos.lng.toFixed(4)}°E`;
   });
-  setTimeout(()=>lmap.invalidateSize(),500)
+  setTimeout(() => orderMap.invalidateSize(), 500);
 }
 
 // ===== PAYMENT =====
-document.getElementById('ssInput')?.addEventListener('change',function(e){
-  if(e.target.files[0])document.querySelector('.up-area .fn').textContent=e.target.files[0].name
+document.getElementById('screenshotFile')?.addEventListener('change', function(e) {
+  if (e.target.files[0]) {
+    document.getElementById('fileName').textContent = e.target.files[0].name;
+  }
 });
 
-function submitPay(){
-  const t=document.getElementById('transId').value.trim();
-  const f=document.getElementById('ssInput').files[0];
-  if(!t)return alert('Enter the transaction ID');
-  if(!f)return alert('Upload the payment screenshot');
-  if(!cur)return;
-  const n=document.getElementById('cName').value.trim();
-  const p=document.getElementById('cPhone').value.trim();
-  const a=document.getElementById('cAddr').value.trim();
-  const total=cur.price+2;
-  const oid='KP-'+Date.now().toString(36).toUpperCase();
-  const locTxt=loc?`https://www.google.com/maps?q=${loc.lat},${loc.lng}`:'Not pinned';
-  const msg=`🛒 *NEW ORDER*
-━━━━━━━━━━━━━━
-📋 Order: ${oid}
-━━━━━━━━━━━━━━
-👤 ${n}
-📞 ${p}
-📍 ${a}
-🗺️ Map: ${locTxt}
-━━━━━━━━━━━━━━
-📦 ${cur.name}
-💰 ${cur.price} KD
-🚚 Delivery: 2 KD
-💵 Total: ${total} KD
-━━━━━━━━━━━━━━
-💳 WAMD → 94091673 (MOHAMMAD RIZWAN)
-🔢 TXN ID: ${t}
-📎 Screenshot: ${f.name}
-━━━━━━━━━━━━━━
-✅ PAID`;
-  window.open(`https://wa.me/919012277862?text=${encodeURIComponent(msg)}`,'_blank');
-  closeM('payModal');
-  setTimeout(()=>{
-    document.getElementById('sOrderId').textContent=oid;
-    document.getElementById('sProduct').textContent=cur.name;
-    document.getElementById('sAmount').textContent=`${total} KD`;
+function submitPayment() {
+  const txnId = document.getElementById('transactionId').value.trim();
+  const file = document.getElementById('screenshotFile').files[0];
+  if (!txnId) return alert('Please enter the transaction ID');
+  if (!file) return alert('Please upload the payment screenshot');
+  if (!currentProduct) return;
+
+  const name = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  const addr = document.getElementById('custAddress').value.trim();
+  const total = currentProduct.price + 2;
+  const orderId = 'KP-' + Date.now().toString(36).toUpperCase();
+
+  const mapLink = mapLocation
+    ? `https://www.google.com/maps?q=${mapLocation.lat},${mapLocation.lng}`
+    : 'Not pinned';
+
+  const message = [
+    '\u{1F6D2} *NEW ORDER - KUWAIT PLEASURE*',
+    '',
+    '\u{1F4CB} Order ID: ' + orderId,
+    '',
+    '\u{1F464} Customer: ' + name,
+    '\u{1F4DE} Phone: ' + phone,
+    '\u{1F4CD} Address: ' + addr,
+    '\u{1F5FA} Map: ' + mapLink,
+    '',
+    '\u{1F4E6} Product: ' + currentProduct.name,
+    '\u{1F4B0} Price: ' + currentProduct.price + ' KD',
+    '\u{1F69A} Delivery: 2 KD',
+    '\u{1F4B5} Total: ' + total + ' KD',
+    '',
+    '\u{1F4B3} Payment: WAMD',
+    '\u{1F3E6} Sent to: MOHAMMAD RIZWAN (94091673)',
+    '\u{1F522} Txn ID: ' + txnId,
+    '\u{1F4CE} Screenshot: ' + file.name,
+    '',
+    '\u2705 Status: PAID - Awaiting Confirmation'
+  ].join('\n');
+
+  window.open('https://wa.me/919012277862?text=' + encodeURIComponent(message), '_blank');
+
+  closeModal('paymentModal');
+  setTimeout(() => {
+    document.getElementById('successOrder').textContent = orderId;
+    document.getElementById('successProduct').textContent = currentProduct.name;
+    document.getElementById('successTotal').textContent = total + ' KD';
     document.getElementById('successModal').classList.add('open');
-    document.body.style.overflow='hidden'
-  },300)
+    document.body.style.overflow = 'hidden';
+  }, 300);
 }
 
-// ===== UTILS =====
-function closeM(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';if(id==='detailModal')killThree();if(id==='checkoutModal'&&lmap){lmap.remove();lmap=null}}
-function closeAll(){
-  document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open'));
-  document.body.style.overflow='';
-  ['cName','cPhone','cAddr','transId'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('ssInput').value='';
-  document.querySelector('.up-area .fn').textContent='';
-  killThree();if(lmap){lmap.remove();lmap=null}
+// ===== UTILITY =====
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+  if (id === 'detailModal') killThree();
+  if (id === 'checkoutModal' && orderMap) {
+    orderMap.remove();
+    orderMap = null;
+    orderMarker = null;
+  }
+}
+
+function closeAll() {
+  document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open'));
+  document.body.style.overflow = '';
+  ['custName','custPhone','custAddress','transactionId'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('screenshotFile').value = '';
+  document.getElementById('fileName').textContent = '';
+  killThree();
+  if (orderMap) { orderMap.remove(); orderMap = null; orderMarker = null; }
 }
 
 // ===== INIT =====
-render('all');
+renderProducts('all');
+
+// Close modals on backdrop click
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', function(e) {
+    if (e.target === this) closeAllModals(this);
+  });
+});
+
+function closeAllModals(el) {
+  el.classList.remove('open');
+  document.body.style.overflow = '';
+  killThree();
+  if (orderMap) { orderMap.remove(); orderMap = null; orderMarker = null; }
+}
 </script>
 </body>
 </html>
