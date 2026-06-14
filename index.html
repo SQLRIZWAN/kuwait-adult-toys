@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuwait Pleasure</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #12121a;
+      --bg3: #1a1a28;
+      --gold: #d4a853;
+      --gold-light: #f0d080;
+      --gold-dark: #b8923a;
+      --text: #f0ebe3;
+      --text2: #a09888;
+      --pink: #e84a7a;
+      --pink-dark: #c0305a;
+      --blue: #4a7ae8;
+      --radius: 16px;
+      --shadow: 0 8px 40px rgba(0,0,0,0.5);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+    ::selection { background: var(--gold); color: #000; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg2); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 3px; }
+
+    /* HEADER */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(10,10,15,0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(212,168,83,0.1);
+      padding: 0 24px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 1px;
+    }
+    .logo span { font-weight: 400; -webkit-text-fill-color: var(--text2); font-size: 14px; }
+    nav { display: flex; gap: 8px; }
+    nav a {
+      color: var(--text2);
+      text-decoration: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    nav a:hover, nav a.active { color: var(--gold); background: rgba(212,168,83,0.1); }
+    .cart-icon {
+      position: relative;
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(212,168,83,0.1);
+      border-radius: 50%;
+      color: var(--gold);
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 16px;
+    }
+    .cart-icon:hover { background: rgba(212,168,83,0.2); }
+    .cart-count {
+      position: absolute; top: -4px; right: -4px;
+      width: 20px; height: 20px;
+      background: var(--pink);
+      border-radius: 50%;
+      font-size: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(ellipse at 30% 50%, rgba(212,168,83,0.05) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 50%, rgba(232,74,122,0.05) 0%, transparent 50%);
+      animation: heroGlow 8s ease-in-out infinite alternate;
+    }
+    @keyframes heroGlow {
+      0% { transform: translate(0,0) rotate(0deg); }
+      100% { transform: translate(-20px,-20px) rotate(3deg); }
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 800px; }
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 20px;
+      border: 1px solid rgba(212,168,83,0.3);
+      border-radius: 20px;
+      font-size: 12px;
+      color: var(--gold);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 64px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .hero h1 em { font-style: normal; background: linear-gradient(135deg, var(--gold), var(--gold-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero p {
+      color: var(--text2);
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 40px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero-tabs {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .hero-tab {
+      padding: 16px 48px;
+      border-radius: 50px;
+      border: none;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.4s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .hero-tab.men {
+      background: linear-gradient(135deg, #1a2a4a, #2a4a6a);
+      color: #8ab4f8;
+    }
+    .hero-tab.men:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(74,122,232,0.3); }
+    .hero-tab.women {
+      background: linear-gradient(135deg, #3a1a2a, #5a2a4a);
+      color: #f88ab4;
+    }
+    .hero-tab.women:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(232,74,122,0.3); }
+    .hero-tab i { font-size: 20px; }
+
+    /* SECTION TITLES */
+    .section-header {
+      text-align: center;
+      padding: 80px 24px 40px;
+    }
+    .section-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px;
+      margin-bottom: 12px;
+    }
+    .section-header p { color: var(--text2); font-size: 16px; }
+
+    /* CATEGORY TABS */
+    .cat-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 24px 40px;
+      flex-wrap: wrap;
+    }
+    .cat-tab {
+      padding: 10px 32px;
+      border-radius: 50px;
+      border: 1px solid rgba(212,168,83,0.2);
+      background: transparent;
+      color: var(--text2);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Inter', sans-serif;
+    }
+    .cat-tab:hover { border-color: var(--gold); color: var(--gold); }
+    .cat-tab.active {
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      border-color: transparent;
+      color: #000;
+    }
+
+    /* PRODUCTS */
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+      padding: 0 24px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .product-card {
+      background: var(--bg2);
+      border: 1px solid rgba(212,168,83,0.06);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: all 0.4s;
+      cursor: pointer;
+      position: relative;
+    }
+    .product-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(212,168,83,0.2);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .product-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+      background: var(--bg3);
+      position: relative;
+    }
+    .product-img-placeholder {
+      width: 100%;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--bg3), var(--bg2));
+      font-size: 60px;
+      color: rgba(212,168,83,0.15);
+    }
+    .product-badge {
+      position: absolute;
+      top: 12px; left: 12px;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--gold);
+      color: #000;
+    }
+    .product-info { padding: 20px; }
+    .product-info h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .product-info .category {
+      font-size: 12px;
+      color: var(--text2);
+      margin-bottom: 8px;
+    }
+    .product-info .price {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .product-info .price span { font-size: 14px; font-weight: 400; color: var(--text2); }
+    .product-rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin: 8px 0;
+    }
+    .product-rating i { color: var(--gold); font-size: 12px; }
+    .product-rating .count { font-size: 12px; color: var(--text2); margin-left: 4px; }
+    .product-card .quick-buy {
+      position: absolute;
+      bottom: 20px; right: 20px;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: none;
+      background: var(--gold);
+      color: #000;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.3s;
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    .product-card:hover .quick-buy { opacity: 1; transform: scale(1); }
+    .product-card .quick-buy:hover { background: var(--gold-light); }
+
+    /* PRODUCT DETAIL MODAL */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(10px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow-y: auto;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--bg2);
+      border: 1px solid rgba(212,168,83,0.1);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 1000px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      animation: modalIn 0.3s ease;
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.95) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.2); }
+    .modal-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+    .modal-gallery {
+      position: relative;
+      background: var(--bg3);
+      border-radius: 20px 0 0 20px;
+      overflow: hidden;
+      min-height: 500px;
+    }
+    .modal-gallery .main-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0; left: 0;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .modal-gallery .main-img.active { opacity: 1; position: relative; }
+    .modal-gallery .gallery-nav {
+      position: absolute;
+      bottom: 16px; left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+    }
+    .modal-gallery .gallery-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.4);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .modal-gallery .gallery-dot.active { background: var(--gold); border-color: var(--gold); }
+
+    /* 3D VIEWER */
+    #three-container {
+      width: 100%;
+      height: 300px;
+      cursor: grab;
+    }
+    #three-container:active { cursor: grabbing; }
+
+    /* TABS IN DETAIL */
+    .detail-tabs {
+      display: flex;
+      border-bottom: 1px solid rgba(212,168,83,0.1);
+    }
+    .detail-tab {
+      padding: 12px 20px;
+      background: none;
+      border: none;
+      color: var(--text2);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s;
+      position: relative;
+    }
+    .detail-tab.active { color: var(--gold); }
+    .detail-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 20px; right: 20px;
+      height: 2px;
+      background: var(--gold);
+      border-radius: 2px;
+    }
+    .detail-tab:hover { color: var(--text); }
+    .detail-panel { display: none; padding: 20px; }
+    .detail-panel.active { display: block; }
+
+    .modal-detail {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .modal-detail h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+    }
+    .modal-detail .price-lg {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .modal-detail .price-lg span { font-size: 18px; color: var(--text2); font-weight: 400; }
+    .modal-detail .desc { color: var(--text2); line-height: 1.6; font-size: 14px; }
+    .modal-detail .stars { display: flex; gap: 2px; align-items: center; }
+    .modal-detail .stars i { color: var(--gold); font-size: 16px; }
+    .modal-detail .stars .avg { font-weight: 700; margin-left: 8px; }
+    .modal-detail .stars .total { color: var(--text2); font-size: 13px; }
+
+    .buy-now-btn {
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      color: #000;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .buy-now-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212,168,83,0.3); }
+    .buy-now-btn i { font-size: 18px; }
+
+    /* reviews */
+    .review-item {
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(212,168,83,0.06);
+    }
+    .review-item:last-child { border-bottom: none; }
+    .review-item .reviewer {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .review-item .avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--bg3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 600;
+    }
+    .review-item .name { font-weight: 600; font-size: 14px; }
+    .review-item .date { color: var(--text2); font-size: 11px; }
+    .review-item .text { font-size: 13px; color: var(--text2); line-height: 1.5; }
+    .review-item .r-stars { display: flex; gap: 2px; margin-bottom: 4px; }
+    .review-item .r-stars i { font-size: 11px; color: var(--gold); }
+
+    /* CHECKOUT MODAL */
+    #checkoutModal .modal { max-width: 700px; }
+    .checkout-form { padding: 32px; }
+    .checkout-form h2 { margin-bottom: 8px; font-family: 'Playfair Display', serif; font-size: 28px; }
+    .checkout-form .subtitle { color: var(--text2); margin-bottom: 24px; font-size: 14px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: var(--text2);
+    }
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(212,168,83,0.15);
+      background: var(--bg3);
+      color: var(--text);
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s;
+      outline: none;
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(212,168,83,0.1);
+    }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* MAP */
+    #checkout-map {
+      width: 100%;
+      height: 250px;
+      border-radius: 10px;
+      border: 1px solid rgba(212,168,83,0.15);
+      z-index: 1;
+    }
+    .location-pin {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text2);
+      margin-top: 6px;
+    }
+    .location-pin i { color: var(--pink); }
+
+    /* PAYMENT MODAL */
+    #paymentModal .modal { max-width: 550px; }
+    .payment-content { padding: 32px; }
+    .payment-content h2 { font-family: 'Playfair Display', serif; font-size: 26px; margin-bottom: 8px; }
+    .payment-content .subtitle { color: var(--text2); margin-bottom: 24px; font-size: 14px; }
+    .payment-details {
+      background: var(--bg3);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(212,168,83,0.1);
+    }
+    .payment-details .row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-size: 14px;
+    }
+    .payment-details .row .label { color: var(--text2); }
+    .payment-details .row .value { font-weight: 600; }
+    .payment-details .wamd-number {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 2px;
+    }
+    .payment-details .wamd-name { color: var(--text); font-size: 16px; margin-top: 4px; }
+
+    .upload-area {
+      border: 2px dashed rgba(212,168,83,0.2);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-bottom: 16px;
+    }
+    .upload-area:hover { border-color: var(--gold); background: rgba(212,168,83,0.03); }
+    .upload-area i { font-size: 36px; color: var(--gold); margin-bottom: 8px; }
+    .upload-area p { font-size: 13px; color: var(--text2); }
+    .upload-area .filename { color: var(--gold); font-weight: 600; margin-top: 4px; }
+    .upload-area input { display: none; }
+
+    .order-summary {
+      background: var(--bg3);
+      border-radius: 12px;
+      padding: 16px;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+    .order-summary .row { display: flex; justify-content: space-between; padding: 4px 0; }
+    .order-summary .total { font-weight: 700; color: var(--gold); font-size: 18px; border-top: 1px solid rgba(212,168,83,0.1); padding-top: 8px; margin-top: 4px; }
+
+    /* SUCCESS */
+    .success-content {
+      padding: 60px 32px;
+      text-align: center;
+    }
+    .success-content .check {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: rgba(212,168,83,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 32px;
+      color: var(--gold);
+    }
+    .success-content h2 { font-family: 'Playfair Display', serif; font-size: 28px; margin-bottom: 8px; }
+    .success-content p { color: var(--text2); font-size: 14px; max-width: 400px; margin: 0 auto 24px; }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 40px 24px;
+      border-top: 1px solid rgba(212,168,83,0.06);
+      color: var(--text2);
+      font-size: 13px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 36px; }
+      .hero-tab { padding: 12px 28px; font-size: 14px; }
+      .modal-body { grid-template-columns: 1fr; }
+      .modal-gallery { min-height: 300px; border-radius: 20px 20px 0 0; }
+      .form-row { grid-template-columns: 1fr; }
+      .section-header h2 { font-size: 28px; }
+      .products { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; padding: 0 12px 40px; }
+      .product-info { padding: 12px; }
+      .product-info h3 { font-size: 13px; }
+      .product-info .price { font-size: 18px; }
+      header { padding: 0 12px; height: 60px; }
+      .logo { font-size: 18px; }
+      nav a { padding: 6px 12px; font-size: 11px; }
+      .modal-detail h2 { font-size: 22px; }
+      .modal-detail .price-lg { font-size: 28px; }
+      .checkout-form, .payment-content { padding: 20px; }
+      .cat-tab { padding: 8px 20px; font-size: 12px; }
+    }
+
+    /* ANIMATIONS */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* LOADING SPINNER */
+    .spinner {
+      width: 40px; height: 40px;
+      border: 3px solid rgba(212,168,83,0.1);
+      border-top: 3px solid var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 40px auto;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">Kuwait <span>Pleasure</span></div>
+  <nav>
+    <a class="active" onclick="scrollToHero()">Home</a>
+    <a onclick="scrollToProducts('men')">Men</a>
+    <a onclick="scrollToProducts('women')">Women</a>
+    <a onclick="scrollToProducts()">Shop</a>
+  </nav>
+  <div class="cart-icon" onclick="scrollToProducts()">
+    <i class="fas fa-shopping-bag"></i>
+    <span class="cart-count">0</span>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Premium Collection</div>
+    <h1>Discover Your<br><em>Ultimate Pleasure</em></h1>
+    <p>Premium quality intimate wellness products. Discreet packaging & fast delivery across Kuwait.</p>
+    <div class="hero-tabs">
+      <button class="hero-tab men" onclick="scrollToProducts('men')">
+        <i class="fas fa-mars"></i> For Men
+      </button>
+      <button class="hero-tab women" onclick="scrollToProducts('women')">
+        <i class="fas fa-venus"></i> For Women
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS SECTION -->
+<div class="section-header fade-up" id="shop">
+  <h2>Our Collection</h2>
+  <p>Premium products curated for your pleasure</p>
+</div>
+
+<div class="cat-tabs fade-up" id="catTabs">
+  <button class="cat-tab active" data-cat="all" onclick="filterProducts('all')">All</button>
+  <button class="cat-tab" data-cat="men" onclick="filterProducts('men')"><i class="fas fa-mars"></i> Men</button>
+  <button class="cat-tab" data-cat="women" onclick="filterProducts('women')"><i class="fas fa-venus"></i> Women</button>
+</div>
+
+<div class="products" id="productGrid"></div>
+
+<!-- PRODUCT DETAIL MODAL -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeDetail()"><i class="fas fa-times"></i></button>
+    <div class="modal-body">
+      <div class="modal-gallery" id="detailGallery">
+        <div id="three-container"></div>
+      </div>
+      <div class="modal-detail" id="detailContent">
+        <div>
+          <h2 id="detailTitle"></h2>
+          <div class="stars" id="detailStars"></div>
+          <div class="price-lg" id="detailPrice"></div>
+          <p class="desc" id="detailDesc"></p>
+        </div>
+        <div class="detail-tabs">
+          <button class="detail-tab active" data-tab="photos" onclick="switchDetailTab('photos')"><i class="fas fa-images"></i> Photos</button>
+          <button class="detail-tab" data-tab="video" onclick="switchDetailTab('video')"><i class="fas fa-video"></i> Video</button>
+          <button class="detail-tab" data-tab="3d" onclick="switchDetailTab('3d');initThreeView()"><i class="fas fa-cube"></i> 3D</button>
+          <button class="detail-tab" data-tab="reviews" onclick="switchDetailTab('reviews')"><i class="fas fa-star"></i> Reviews</button>
+        </div>
+        <div class="detail-panel active" id="panel-photos">
+          <p style="color:var(--text2);font-size:13px;">HD product images available. Click thumbnails to browse.</p>
+          <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;" id="thumbnails"></div>
+        </div>
+        <div class="detail-panel" id="panel-video">
+          <div style="background:var(--bg3);border-radius:10px;padding:40px 20px;text-align:center;">
+            <i class="fas fa-play-circle" style="font-size:48px;color:var(--gold);margin-bottom:12px;"></i>
+            <p style="color:var(--text2);font-size:13px;">Product video demonstration</p>
+          </div>
+        </div>
+        <div class="detail-panel" id="panel-3d">
+          <p style="color:var(--text2);font-size:13px;margin-bottom:8px;">Drag to rotate • Scroll to zoom</p>
+          <div id="three-container-small" style="width:100%;height:200px;border-radius:10px;background:var(--bg3);"></div>
+        </div>
+        <div class="detail-panel" id="panel-reviews">
+          <div id="reviewsList"></div>
+        </div>
+        <button class="buy-now-btn" onclick="openCheckout()">
+          <i class="fas fa-shopping-bag"></i> Buy Now — <span id="buyPrice"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal-overlay" id="checkoutModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeCheckout()"><i class="fas fa-times"></i></button>
+    <div class="checkout-form">
+      <h2>Delivery Details</h2>
+      <p class="subtitle">Fill in your information to complete the order</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="custName" placeholder="Your full name" required>
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="custPhone" placeholder="+965 XXXX XXXX" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Delivery Address</label>
+        <textarea id="custAddress" placeholder="Block, Street, Building, Apartment..." required></textarea>
+      </div>
+      <div class="form-group">
+        <label>Pin your location on map</label>
+        <div id="checkout-map"></div>
+        <div class="location-pin"><i class="fas fa-map-pin"></i> <span id="locCoords">Click on map to pin your location</span></div>
+      </div>
+      <div class="order-summary" id="checkoutSummary"></div>
+      <button class="buy-now-btn" onclick="submitCheckout()">
+        <i class="fas fa-credit-card"></i> Continue to Payment
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- PAYMENT MODAL -->
+<div class="modal-overlay" id="paymentModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closePayment()"><i class="fas fa-times"></i></button>
+    <div class="payment-content">
+      <h2>Complete Payment</h2>
+      <p class="subtitle">Pay via WAMD (Kuwait Mobile Wallet)</p>
+      <div class="payment-details">
+        <div class="row">
+          <span class="label">WAMD Number</span>
+          <span class="wamd-number">94091673</span>
+        </div>
+        <div class="row">
+          <span class="label">Account Name</span>
+          <span class="wamd-name">MOHAMMAD RIZWAN</span>
+        </div>
+        <div class="row">
+          <span class="label">Amount</span>
+          <span class="value" style="color:var(--gold);font-size:20px;" id="payAmount">0 KD</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Transaction ID</label>
+        <input type="text" id="transId" placeholder="Enter WAMD transaction ID">
+      </div>
+      <div class="upload-area" id="uploadArea" onclick="document.getElementById('screenshotInput').click()">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <p>Upload payment screenshot</p>
+        <div class="filename"></div>
+        <input type="file" id="screenshotInput" accept="image/*" capture="environment">
+      </div>
+      <button class="buy-now-btn" onclick="submitPayment()">
+        <i class="fas fa-check-circle"></i> Confirm & Place Order
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal" style="max-width:450px;">
+    <div class="success-content">
+      <div class="check"><i class="fas fa-check"></i></div>
+      <h2>Order Placed!</h2>
+      <p>Your order has been submitted successfully. We will contact you shortly on WhatsApp for confirmation.</p>
+      <div style="background:var(--bg3);border-radius:12px;padding:16px;margin-bottom:16px;font-size:13px;text-align:left;">
+        <div style="display:flex;justify-content:space-between;padding:4px 0;"><span style="color:var(--text2);">Order ID</span><span id="successOrderId" style="font-weight:600;"></span></div>
+        <div style="display:flex;justify-content:space-between;padding:4px 0;"><span style="color:var(--text2);">Product</span><span id="successProduct" style="font-weight:600;"></span></div>
+        <div style="display:flex;justify-content:space-between;padding:4px 0;"><span style="color:var(--text2);">Total</span><span id="successAmount" style="font-weight:700;color:var(--gold);"></span></div>
+      </div>
+      <button class="buy-now-btn" onclick="closeAllModals()" style="max-width:250px;margin:0 auto;">
+        <i class="fas fa-home"></i> Back to Home
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  &copy; 2026 Kuwait Pleasure &mdash; Premium intimate wellness &bull; Kuwait
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// ===================== PRODUCT DATA =====================
+const products = [
+  // MEN
+  {
+    id: 'm1', cat: 'men', name: 'Premium Vibrating Massager',
+    price: 12, desc: 'High-quality silicone vibrating massager designed for men. Multiple vibration modes, waterproof, rechargeable. Perfect for solo or couple play.',
+    rating: 4.7, reviews: 23,
+    img: 'https://images.unsplash.com/photo-1621607512214-68297480165e?w=400&q=80',
+    color: '#1a2a4a'
+  },
+  {
+    id: 'm2', cat: 'men', name: 'Prostate Pleasure Wand',
+    price: 15, desc: 'Ergonomic prostate massager with curved tip for precise stimulation. Silicone body, remote control, 10 vibration patterns.',
+    rating: 4.8, reviews: 18,
+    img: 'https://images.unsplash.com/photo-1621607512214-68297480165e?w=400&q=80',
+    color: '#1a2a4a'
+  },
+  {
+    id: 'm3', cat: 'men', name: 'Deluxe Cock Ring Set',
+    price: 8, desc: 'Set of 3 premium silicone cock rings. Different sizes for varied comfort. Enhances stamina and performance.',
+    rating: 4.5, reviews: 31,
+    img: 'https://images.unsplash.com/photo-1621607512214-68297480165e?w=400&q=80',
+    color: '#1a2a4a'
+  },
+  {
+    id: 'm4', cat: 'men', name: 'Ultra Stroker Fleshlight',
+    price: 18, desc: 'Realistic textured stroker with super-soft TPE material. Reusable, easy to clean. Discreet design.',
+    rating: 4.6, reviews: 27,
+    img: 'https://images.unsplash.com/photo-1621607512214-68297480165e?w=400&q=80',
+    color: '#1a2a4a'
+  },
+  {
+    id: 'm5', cat: 'men', name: 'Masturbator Cup - Suction',
+    price: 10, desc: 'Compact masturbator cup with adjustable suction. Ribbed internal texture for maximum sensation.',
+    rating: 4.4, reviews: 15,
+    img: 'https://images.unsplash.com/photo-1621607512214-68297480165e?w=400&q=80',
+    color: '#1a2a4a'
+  },
+  {
+    id: 'm6', cat: 'men', name: 'Vibrating Penis Ring',
+    price: 9, desc: 'Silicone vibrating cock ring with bullet vibe. Dual stimulation for both partners.',
+    rating: 4.3, reviews: 20,
+    img: 'https://images.unsplash.com/photo-1621607512214-68297480165e?w=400&q=80',
+    color: '#1a2a4a'
+  },
+  // WOMEN
+  {
+    id: 'w1', cat: 'women', name: 'Rabbit Vibrator - Dual',
+    price: 15, desc: 'Premium dual-stimulation rabbit vibrator. Silicone body, powerful motor, 12 functions. Rechargeable, waterproof.',
+    rating: 4.9, reviews: 42,
+    img: 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=400&q=80',
+    color: '#3a1a2a'
+  },
+  {
+    id: 'w2', cat: 'women', name: 'Bullet Vibrator - Compact',
+    price: 9, desc: 'Discreet mini bullet vibrator. Powerful yet quiet. Perfect for clitoral stimulation. Battery included.',
+    rating: 4.6, reviews: 35,
+    img: 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=400&q=80',
+    color: '#3a1a2a'
+  },
+  {
+    id: 'w3', cat: 'women', name: 'Silicone Dildo Set',
+    price: 12, desc: 'Set of 3 silicone dildos in graduated sizes. Body-safe materials, realistic texture, suction cup base.',
+    rating: 4.7, reviews: 29,
+    img: 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=400&q=80',
+    color: '#3a1a2a'
+  },
+  {
+    id: 'w4', cat: 'women', name: 'Clit Stimulator - Air Pulse',
+    price: 18, desc: 'Advanced air pulse technology for clitoral stimulation. Touchless pleasure, 10 intensity levels, USB rechargeable.',
+    rating: 4.8, reviews: 38,
+    img: 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=400&q=80',
+    color: '#3a1a2a'
+  },
+  {
+    id: 'w5', cat: 'women', name: 'Wand Massager - Cordless',
+    price: 20, desc: 'Powerful cordless wand massager. Deep vibration, variable speed, silicone head. Perfect for body massage.',
+    rating: 4.9, reviews: 45,
+    img: 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=400&q=80',
+    color: '#3a1a2a'
+  },
+  {
+    id: 'w6', cat: 'women', name: 'G-Spot Vibrator - Curved',
+    price: 14, desc: 'Ergonomic G-spot vibrator with curved tip. Silicone body, 8 vibration modes, whisper-quiet motor.',
+    rating: 4.7, reviews: 22,
+    img: 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=400&q=80',
+    color: '#3a1a2a'
+  },
+  {
+    id: 'w7', cat: 'women', name: 'Couples Vibrator - Wearable',
+    price: 16, desc: 'Wearable couples vibrator for hands-free play. Remote controlled, comfortable fit, body-safe silicone.',
+    rating: 4.5, reviews: 17,
+    img: 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=400&q=80',
+    color: '#3a1a2a'
+  },
+  {
+    id: 'w8', cat: 'women', name: 'Egg Vibrator - Remote',
+    price: 8, desc: 'Remote control egg vibrator. Rechargeable, waterproof, 10 vibration modes. Discreet and quiet.',
+    rating: 4.4, reviews: 26,
+    img: 'https://images.unsplash.com/photo-1596704017254-9b121068fb31?w=400&q=80',
+    color: '#3a1a2a'
+  }
+];
+
+const reviews = {
+  m1: [
+    { name: 'Ahmed K.', avatar: 'A', stars: 5, text: 'Excellent quality! Very happy with the purchase. Discreet packaging as promised.', date: '2 weeks ago' },
+    { name: 'Fahad M.', avatar: 'F', stars: 4, text: 'Good product for the price. Works well.', date: '1 month ago' },
+  ],
+  m2: [
+    { name: 'Sultan A.', avatar: 'S', stars: 5, text: 'Best purchase I have made. Highly recommended!', date: '1 week ago' },
+    { name: 'Khalid R.', avatar: 'K', stars: 4, text: 'Good quality, fast delivery.', date: '3 weeks ago' },
+  ],
+  w1: [
+    { name: 'Noor H.', avatar: 'N', stars: 5, text: 'Amazing product! Exceeded my expectations.', date: '1 week ago' },
+    { name: 'Layla S.', avatar: 'L', stars: 5, text: 'Best vibrator I have ever owned. Worth every dinar!', date: '2 weeks ago' },
+    { name: 'Mona A.', avatar: 'M', stars: 4, text: 'Very good quality. Fast shipping.', date: '1 month ago' },
+  ],
+  w4: [
+    { name: 'Sara M.', avatar: 'S', stars: 5, text: 'Incredible feeling! The air pulse technology is amazing.', date: '3 days ago' },
+    { name: 'Dana R.', avatar: 'D', stars: 5, text: 'Life changing product. Must buy!', date: '1 week ago' },
+  ],
+  w5: [
+    { name: 'Hessa A.', avatar: 'H', stars: 5, text: 'Powerful yet quiet. Love it!', date: '5 days ago' },
+    { name: 'Noura K.', avatar: 'N', stars: 4, text: 'Great massager, a bit bigger than expected but works perfectly.', date: '2 weeks ago' },
+  ]
+};
+
+// ===================== STATE =====================
+let currentProduct = null;
+let selectedCategory = 'all';
+let map = null;
+let mapMarker = null;
+let mapCoords = null;
+let cartCount = 0;
+let threeScene = null;
+let threeRenderer = null;
+
+// ===================== RENDER PRODUCTS =====================
+function renderProducts(cat = 'all') {
+  const grid = document.getElementById('productGrid');
+  const filtered = cat === 'all' ? products : products.filter(p => p.cat === cat);
+  grid.innerHTML = '';
+  filtered.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'product-card fade-up';
+    card.style.animationDelay = `${i * 0.05}s`;
+    card.innerHTML = `
+      <div class="product-img-placeholder" style="background:linear-gradient(135deg, ${p.color}, ${p.color}88);">
+        <i class="fas fa-cube" style="font-size:48px;color:rgba(255,255,255,0.15);"></i>
+      </div>
+      <div class="product-info">
+        <div class="category"><i class="fas fa-${p.cat === 'men' ? 'mars' : 'venus'}"></i> ${p.cat === 'men' ? 'Men' : 'Women'}</div>
+        <h3>${p.name}</h3>
+        <div class="product-rating">
+          ${starsHTML(p.rating)} <span class="count">(${p.reviews})</span>
+        </div>
+        <div class="price">${p.price} <span>KD</span></div>
+      </div>
+      <button class="quick-buy" onclick="event.stopPropagation();openDetail('${p.id}')">
+        <i class="fas fa-eye"></i>
+      </button>
+    `;
+    card.onclick = () => openDetail(p.id);
+    grid.appendChild(card);
+  });
+  setTimeout(() => { document.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible')); }, 100);
+}
+
+function starsHTML(rating) {
+  let s = '';
+  for (let i = 1; i <= 5; i++) {
+    s += `<i class="fas fa-star${i <= rating ? '' : (i - 0.5 <= rating ? '-half-alt' : '')}" style="color:var(--gold);font-size:12px;"></i>`;
+  }
+  return s;
+}
+
+// ===================== FILTER =====================
+function filterProducts(cat) {
+  selectedCategory = cat;
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.toggle('active', t.dataset.cat === cat));
+  renderProducts(cat);
+}
+
+function scrollToProducts(cat) {
+  if (cat) { filterProducts(cat); }
+  document.getElementById('shop').scrollIntoView({ behavior: 'smooth' });
+}
+
+function scrollToHero() {
+  document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ===================== DETAIL MODAL =====================
+function openDetail(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  currentProduct = p;
+  document.getElementById('detailTitle').textContent = p.name;
+  document.getElementById('detailDesc').textContent = p.desc;
+  document.getElementById('detailPrice').innerHTML = `${p.price} <span>KD</span>`;
+  document.getElementById('buyPrice').innerHTML = `${p.price} KD`;
+  document.getElementById('detailStars').innerHTML = `
+    ${starsHTML(p.rating)}
+    <span class="avg">${p.rating}</span>
+    <span class="total">(${p.reviews} reviews)</span>
+  `;
+
+  // thumbnails
+  const thumbs = document.getElementById('thumbnails');
+  thumbs.innerHTML = '';
+  for (let i = 0; i < 4; i++) {
+    const t = document.createElement('div');
+    t.style.cssText = `width:60px;height:60px;border-radius:8px;background:${p.color};cursor:pointer;display:flex;align-items:center;justify-content:center;border:2px solid transparent;`;
+    t.innerHTML = `<i class="fas fa-cube" style="color:rgba(255,255,255,0.2);font-size:20px;"></i>`;
+    if (i === 0) t.style.borderColor = 'var(--gold)';
+    t.onclick = () => {
+      document.querySelectorAll('#thumbnails div').forEach(x => x.style.borderColor = 'transparent');
+      t.style.borderColor = 'var(--gold)';
+    };
+    thumbs.appendChild(t);
+  }
+
+  // reviews
+  const rl = document.getElementById('reviewsList');
+  const prodReviews = reviews[id] || [
+    { name: 'Verified Buyer', avatar: 'V', stars: 5, text: 'Great product! Fast delivery in Kuwait.', date: '1 week ago' },
+    { name: 'Happy Customer', avatar: 'H', stars: 4, text: 'Good quality, recommended.', date: '2 weeks ago' }
+  ];
+  rl.innerHTML = prodReviews.map(r => `
+    <div class="review-item">
+      <div class="reviewer">
+        <div class="avatar">${r.avatar}</div>
+        <div>
+          <div class="name">${r.name}</div>
+          <div class="date">${r.date}</div>
+        </div>
+      </div>
+      <div class="r-stars">${starsHTML(r.stars)}</div>
+      <div class="text">${r.text}</div>
+    </div>
+  `).join('');
+
+  // reset tabs
+  switchDetailTab('photos');
+
+  document.getElementById('detailModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDetail() {
+  document.getElementById('detailModal').classList.remove('open');
+  document.body.style.overflow = '';
+  disposeThree();
+}
+
+function switchDetailTab(tab) {
+  document.querySelectorAll('.detail-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  document.querySelectorAll('.detail-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(`panel-${tab}`).classList.add('active');
+}
+
+// ===================== THREE.JS 3D VIEWER =====================
+let threeInitialized = false;
+
+function initThreeView(containerId = 'three-container-small') {
+  if (threeInitialized) return;
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  const w = container.clientWidth || 300;
+  const h = container.clientHeight || 200;
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x12121a);
+
+  const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 100);
+  camera.position.set(3, 2, 5);
+  camera.lookAt(0, 0, 0);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(w, h);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  container.innerHTML = '';
+  container.appendChild(renderer.domElement);
+
+  // lights
+  const ambient = new THREE.AmbientLight(0x404060);
+  scene.add(ambient);
+  const dlight = new THREE.DirectionalLight(0xffffff, 1);
+  dlight.position.set(5, 10, 7);
+  scene.add(dlight);
+  const dlight2 = new THREE.DirectionalLight(0xd4a853, 0.3);
+  dlight2.position.set(-5, 0, 5);
+  scene.add(dlight2);
+  const fill = new THREE.PointLight(0x4a7ae8, 0.2);
+  fill.position.set(0, 5, 0);
+  scene.add(fill);
+
+  // animated shape
+  const color = currentProduct ? currentProduct.color : '#d4a853';
+  const geom = new THREE.TorusKnotGeometry(1, 0.3, 100, 16);
+  const mat = new THREE.MeshPhysicalMaterial({
+    color: color,
+    metalness: 0.3,
+    roughness: 0.2,
+    clearcoat: 0.1,
+    transparent: true,
+    opacity: 0.9,
+    wireframe: false
+  });
+  const mesh = new THREE.Mesh(geom, mat);
+  scene.add(mesh);
+
+  // particles
+  const pGeom = new THREE.BufferGeometry();
+  const pCount = 200;
+  const pos = new Float32Array(pCount * 3);
+  for (let i = 0; i < pCount * 3; i++) pos[i] = (Math.random() - 0.5) * 10;
+  pGeom.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const pMat = new THREE.PointsMaterial({
+    color: 0xd4a853,
+    size: 0.02,
+    transparent: true,
+    opacity: 0.5
+  });
+  const particles = new THREE.Points(pGeom, pMat);
+  scene.add(particles);
+
+  // animate
+  let animId;
+  function animate() {
+    animId = requestAnimationFrame(animate);
+    mesh.rotation.x += 0.005;
+    mesh.rotation.y += 0.01;
+    particles.rotation.y += 0.0005;
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  // resize
+  function resize() {
+    const w2 = container.clientWidth || 300;
+    const h2 = container.clientHeight || 200;
+    camera.aspect = w2 / h2;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w2, h2);
+  }
+  window.addEventListener('resize', resize);
+
+  threeScene = { scene, camera, renderer, mesh, animId, resize, container };
+  threeInitialized = true;
+}
+
+function initThreeMain() {
+  initThreeView('three-container');
+}
+
+function disposeThree() {
+  if (threeScene) {
+    cancelAnimationFrame(threeScene.animId);
+    window.removeEventListener('resize', threeScene.resize);
+    if (threeScene.renderer) {
+      threeScene.renderer.dispose();
+      if (threeScene.container) threeScene.container.innerHTML = '';
+    }
+    threeScene = null;
+    threeInitialized = false;
+  }
+}
+
+// ===================== CHECKOUT =====================
+let checkoutMap = null;
+let checkoutMarker = null;
+
+function openCheckout() {
+  closeDetail();
+  setTimeout(() => {
+    const p = currentProduct;
+    if (!p) return;
+    document.getElementById('checkoutSummary').innerHTML = `
+      <div class="row"><span>${p.name}</span><span>${p.price} KD</span></div>
+      <div class="row"><span>Delivery</span><span>2 KD</span></div>
+      <div class="row total"><span>Total</span><span>${p.price + 2} KD</span></div>
+    `;
+    document.getElementById('payAmount').textContent = `${p.price + 2} KD`;
+    document.getElementById('checkoutModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    setTimeout(initCheckoutMap, 300);
+  }, 300);
+}
+
+function closeCheckout() {
+  document.getElementById('checkoutModal').classList.remove('open');
+  document.body.style.overflow = '';
+  if (checkoutMap) {
+    checkoutMap.remove();
+    checkoutMap = null;
+  }
+}
+
+function initCheckoutMap() {
+  const container = document.getElementById('checkout-map');
+  if (!container) return;
+  container.style.zIndex = '1';
+
+  if (checkoutMap) { checkoutMap.invalidateSize(); return; }
+
+  // Kuwait center
+  checkoutMap = L.map('checkout-map', {
+    zoomControl: true,
+    attributionControl: false
+  }).setView([29.3117, 47.4818], 11);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18
+  }).addTo(checkoutMap);
+
+  checkoutMarker = L.marker([29.3117, 47.4818], { draggable: true }).addTo(checkoutMap);
+  mapCoords = { lat: 29.3117, lng: 47.4818 };
+  document.getElementById('locCoords').textContent = 'Kuwait City (drag to adjust)';
+
+  checkoutMap.on('click', function(e) {
+    if (checkoutMarker) checkoutMarker.setLatLng(e.latlng);
+    else checkoutMarker = L.marker(e.latlng, { draggable: true }).addTo(checkoutMap);
+    mapCoords = { lat: e.latlng.lat, lng: e.latlng.lng };
+    document.getElementById('locCoords').textContent = `Lat: ${e.latlng.lat.toFixed(4)}, Lng: ${e.latlng.lng.toFixed(4)}`;
+  });
+
+  checkoutMarker.on('dragend', function(e) {
+    const pos = e.target.getLatLng();
+    mapCoords = { lat: pos.lat, lng: pos.lng };
+    document.getElementById('locCoords').textContent = `Lat: ${pos.lat.toFixed(4)}, Lng: ${pos.lng.toFixed(4)}`;
+  });
+
+  setTimeout(() => checkoutMap.invalidateSize(), 500);
+}
+
+function submitCheckout() {
+  const name = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  const address = document.getElementById('custAddress').value.trim();
+
+  if (!name) { alert('Please enter your full name'); return; }
+  if (!phone) { alert('Please enter your phone number'); return; }
+  if (!address) { alert('Please enter your delivery address'); return; }
+
+  closeCheckout();
+  setTimeout(() => {
+    document.getElementById('paymentModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }, 300);
+}
+
+function closePayment() {
+  document.getElementById('paymentModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ===================== PAYMENT =====================
+document.getElementById('screenshotInput')?.addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (file) {
+    document.querySelector('.upload-area .filename').textContent = file.name;
+  }
+});
+
+function submitPayment() {
+  const transId = document.getElementById('transId').value.trim();
+  const file = document.getElementById('screenshotInput').files[0];
+
+  if (!transId) { alert('Please enter the transaction ID'); return; }
+  if (!file) { alert('Please upload the payment screenshot'); return; }
+
+  const p = currentProduct;
+  if (!p) return;
+
+  const name = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  const address = document.getElementById('custAddress').value.trim();
+  const total = p.price + 2;
+  const orderId = 'KP-' + Date.now().toString(36).toUpperCase();
+
+  // send to whatsapp
+  const locText = mapCoords
+    ? `Location: https://www.google.com/maps?q=${mapCoords.lat},${mapCoords.lng} (Lat: ${mapCoords.lat.toFixed(4)}, Lng: ${mapCoords.lng.toFixed(4)})`
+    : 'Location: Not pinned';
+
+  const message = `🛒 *NEW ORDER - KUWAIT PLEASURE*
+━━━━━━━━━━━━━━━━━━
+📋 *Order ID:* ${orderId}
+━━━━━━━━━━━━━━━━━━
+👤 *Customer:* ${name}
+📞 *Phone:* ${phone}
+📍 *Address:* ${address}
+🗺️ ${locText}
+━━━━━━━━━━━━━━━━━━
+📦 *Product:* ${p.name}
+💰 *Price:* ${p.price} KD
+🚚 *Delivery:* 2 KD
+💵 *Total:* ${total} KD
+━━━━━━━━━━━━━━━━━━
+💳 *Payment:* WAMD
+🏦 *Sent to:* MOHAMMAD RIZWAN (94091673)
+🔢 *Transaction ID:* ${transId}
+📎 *Screenshot:* ${file.name}
+━━━━━━━━━━━━━━━━━━
+✅ *Status:* PAID - Awaiting Confirmation`;
+
+  const whatsappUrl = `https://wa.me/919012277862?text=${encodeURIComponent(message)}`;
+  window.open(whatsappUrl, '_blank');
+
+  // show success
+  closePayment();
+  setTimeout(() => {
+    document.getElementById('successOrderId').textContent = orderId;
+    document.getElementById('successProduct').textContent = p.name;
+    document.getElementById('successAmount').textContent = `${total} KD`;
+    document.getElementById('successModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    cartCount++;
+    document.querySelector('.cart-count').textContent = cartCount;
+  }, 300);
+}
+
+function closeAllModals() {
+  document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open'));
+  document.body.style.overflow = '';
+  // reset form
+  document.getElementById('custName').value = '';
+  document.getElementById('custPhone').value = '';
+  document.getElementById('custAddress').value = '';
+  document.getElementById('transId').value = '';
+  document.getElementById('screenshotInput').value = '';
+  document.querySelector('.upload-area .filename').textContent = '';
+  disposeThree();
+}
+
+// ===================== INIT =====================
+renderProducts();
+
+// intersection observer for fade-up
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', function(e) {
+    if (e.target === this) {
+      this.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  });
+});
+</script>
+</body>
+</html>
