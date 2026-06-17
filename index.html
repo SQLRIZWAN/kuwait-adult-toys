@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>18+ Toys Kuwait | Premium Adult Toys</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f8f6f3; color: #1a1a2e; overflow-x: hidden; }
+        
+        /* HEADER / NAV */
+        .top-header {
+            background: linear-gradient(135deg, #0d0d0d 0%, #1a1a2e 100%);
+            color: #fff;
+            padding: 12px 0;
+            text-align: center;
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+        .top-header span { color: #d4a373; }
+        nav {
+            background: #fff;
+            padding: 16px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1a1a2e, #d4a373);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .logo span { font-weight: 300; font-size: 14px; display: block; -webkit-text-fill-color: #888; }
+        .nav-links { display: flex; gap: 28px; align-items: center; }
+        .nav-links a { text-decoration: none; color: #1a1a2e; font-size: 14px; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: #d4a373; }
+        .nav-icons { display: flex; gap: 18px; align-items: center; }
+        .nav-icons svg { cursor: pointer; transition: 0.3s; }
+        .nav-icons svg:hover { opacity: 0.7; }
+        .cart-badge { 
+            background: #d4a373; color: #fff; border-radius: 50%; 
+            width: 20px; height: 20px; font-size: 11px; display: inline-flex;
+            align-items: center; justify-content: center; position: relative; top: -8px; left: -8px;
+        }
+        
+        /* GENDER TABS */
+        .gender-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin: 30px auto 10px;
+            max-width: 400px;
+            background: #fff;
+            border-radius: 50px;
+            padding: 4px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+        .gender-tab {
+            flex: 1;
+            padding: 14px 30px;
+            border: none;
+            background: transparent;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            color: #999;
+        }
+        .gender-tab.active {
+            background: #1a1a2e;
+            color: #fff;
+        }
+        .gender-tab:hover:not(.active) { color: #1a1a2e; }
+        
+        /* SECTION TITLES */
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 50px 0 10px;
+            color: #1a1a2e;
+        }
+        .section-sub {
+            text-align: center;
+            color: #888;
+            font-size: 15px;
+            margin-bottom: 35px;
+        }
+        
+        /* PRODUCT GRID */
+        .products-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 25px;
+        }
+        .product-card {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+            transition: 0.4s;
+            cursor: pointer;
+            position: relative;
+        }
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+        .product-img-wrap {
+            position: relative;
+            height: 260px;
+            overflow: hidden;
+            background: #f5f5f5;
+        }
+        .product-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+        .product-card:hover .product-img-wrap img { transform: scale(1.05); }
+        .product-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: #d4a373;
+            color: #fff;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .product-badge.hot { background: #e74c3c; }
+        .product-info { padding: 18px 20px 22px; }
+        .product-category { font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+        .product-name { font-size: 16px; font-weight: 600; margin-bottom: 6px; line-height: 1.3; }
+        .product-rating {
+            display: flex; align-items: center; gap: 6px; margin-bottom: 10px;
+        }
+        .stars { color: #f1c40f; font-size: 14px; }
+        .rating-num { color: #888; font-size: 13px; }
+        .product-price {
+            display: flex; align-items: center; gap: 10px;
+        }
+        .current-price { font-size: 22px; font-weight: 700; color: #1a1a2e; }
+        .old-price { font-size: 15px; color: #bbb; text-decoration: line-through; }
+        .product-material {
+            font-size: 12px; color: #aaa; margin-top: 8px;
+        }
+        
+        /* HERO BANNER */
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+            padding: 60px 5%;
+            text-align: center;
+            color: #fff;
+            margin: 0 5% 20px;
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212,163,115,0.08) 0%, transparent 60%);
+            animation: heroGlow 8s ease-in-out infinite;
+        }
+        @keyframes heroGlow {
+            0%, 100% { transform: translate(0,0); }
+            50% { transform: translate(30px,30px); }
+        }
+        .hero h1 { font-size: 42px; font-weight: 800; position: relative; z-index: 1; }
+        .hero p { font-size: 18px; color: #ccc; margin-top: 12px; position: relative; z-index: 1; }
+        .hero .cta-btn {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 14px 40px;
+            background: #d4a373;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative; z-index: 1;
+            text-decoration: none;
+        }
+        .hero .cta-btn:hover { background: #c4956a; transform: translateY(-2px); }
+        
+        /* ABOUT / FEATURES */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 5%;
+        }
+        .feature-item {
+            text-align: center;
+            padding: 25px 15px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        }
+        .feature-item svg { margin-bottom: 12px; }
+        .feature-item h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+        .feature-item p { font-size: 13px; color: #888; }
+        
+        /* ---- PRODUCT DETAIL MODAL ---- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-content {
+            background: #fff;
+            max-width: 900px;
+            width: 100%;
+            border-radius: 24px;
+            padding: 35px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalIn 0.3s ease;
+        }
+        @keyframes modalIn {
+            from { transform: scale(0.95) translateY(20px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        .modal-close {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #999;
+            transition: 0.3s;
+        }
+        .modal-close:hover { color: #333; }
+        .modal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .modal-gallery { position: relative; }
+        .modal-main-img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 16px;
+            background: #f5f5f5;
+        }
+        .modal-thumbs {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            overflow-x: auto;
+        }
+        .modal-thumb {
+            width: 70px;
+            height: 70px;
+            border-radius: 10px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: 0.3s;
+            flex-shrink: 0;
+        }
+        .modal-thumb.active { border-color: #d4a373; }
+        
+        .modal-info h2 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+        .modal-price { font-size: 28px; font-weight: 700; color: #1a1a2e; margin: 10px 0; }
+        .modal-desc { color: #666; line-height: 1.7; font-size: 14px; margin: 15px 0; }
+        .modal-details { 
+            background: #f8f6f3; padding: 18px; border-radius: 14px; margin: 15px 0;
+            font-size: 14px; line-height: 2;
+        }
+        .modal-details strong { color: #1a1a2e; }
+        
+        /* REVIEWS IN MODAL */
+        .modal-reviews { margin-top: 20px; }
+        .modal-reviews h3 { font-size: 18px; margin-bottom: 12px; }
+        .review-card {
+            background: #f8f6f3;
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+        .review-card .review-header { display: flex; justify-content: space-between; margin-bottom: 6px; }
+        .review-card .review-name { font-weight: 600; font-size: 14px; }
+        .review-card .review-date { color: #999; font-size: 12px; }
+        .review-card .review-text { font-size: 14px; color: #555; line-height: 1.5; }
+        .review-card .review-imgs { display: flex; gap: 6px; margin-top: 8px; }
+        .review-card .review-imgs img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; }
+        
+        /* BUY NOW BTN */
+        .btn-buy {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #1a1a2e, #2d2d44);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 18px;
+            text-align: center;
+        }
+        .btn-buy:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(26,26,46,0.3); }
+        
+        /* ---- CHECKOUT FORM ---- */
+        .checkout-form {
+            display: none;
+            margin-top: 20px;
+            background: #f8f6f3;
+            padding: 25px;
+            border-radius: 16px;
+        }
+        .checkout-form.open { display: block; }
+        .checkout-form h3 { font-size: 18px; margin-bottom: 15px; }
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; color: #555; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: 0.3s;
+            background: #fff;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: #d4a373;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(212,163,115,0.15);
+        }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .payment-info {
+            background: #fff;
+            padding: 18px;
+            border-radius: 12px;
+            border: 1.5px dashed #d4a373;
+            margin: 14px 0;
+            text-align: center;
+        }
+        .payment-info .wallet-name { font-size: 16px; font-weight: 700; color: #1a1a2e; }
+        .payment-info .wallet-num { font-size: 22px; font-weight: 800; color: #d4a373; letter-spacing: 2px; margin: 6px 0; }
+        .payment-info .wallet-holder { font-size: 14px; color: #666; }
+        
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #d4a373, #c4956a);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(212,163,115,0.4); }
+        
+        /* FOOTER */
+        footer {
+            background: #1a1a2e;
+            color: #ccc;
+            text-align: center;
+            padding: 30px 5%;
+            margin-top: 60px;
+            font-size: 14px;
+        }
+        footer a { color: #d4a373; text-decoration: none; }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .modal-grid { grid-template-columns: 1fr; }
+            .modal-content { padding: 20px; }
+            .hero h1 { font-size: 28px; }
+            .hero { padding: 40px 5%; margin: 0 3% 15px; }
+            .nav-links { display: none; }
+            .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; }
+            .product-img-wrap { height: 180px; }
+            .product-info { padding: 12px 14px 16px; }
+            .product-name { font-size: 14px; }
+            .current-price { font-size: 18px; }
+            .section-title { font-size: 22px; }
+            .form-row { grid-template-columns: 1fr; }
+            .modal-main-img { height: 240px; }
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #d4a373; border-radius: 10px; }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1a1a2e;
+            color: #fff;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            z-index: 2000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: 0.4s;
+            font-size: 14px;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-header">🇰🇼 FREE SHIPPING IN KUWAIT | <span>DISCREET PACKAGING</span> | 100% SATISFACTION</div>
+
+<!-- Navigation -->
+<nav>
+    <div>
+        <div class="logo">18+ TOYS <span>Kuwait • Premium Adult Store</span></div>
+    </div>
+    <div class="nav-links">
+        <a href="#" onclick="filterGender('male')">For Men</a>
+        <a href="#" onclick="filterGender('female')">For Women</a>
+        <a href="#" onclick="filterGender('couple')">For Couples</a>
+        <a href="#" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Shop All</a>
+    </div>
+    <div class="nav-icons">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a1a2e" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a1a2e" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1a1a2e" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </div>
+</nav>
+
+<!-- Hero Banner -->
+<section class="hero">
+    <h1>Premium Pleasure<br>Delivered Discreetly in Kuwait</h1>
+    <p>100% authentic silicone toys • 8 KD – 20 KD • Free delivery across Kuwait</p>
+    <a href="#products" class="cta-btn">Shop Now</a>
+</section>
+
+<!-- Features -->
+<section class="features">
+    <div class="feature-item">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#d4a373" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        <h3>100% Authentic</h3>
+        <p>Real silicone products sourced directly from verified manufacturers</p>
+    </div>
+    <div class="feature-item">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#d4a373" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        <h3>Discreet Shipping</h3>
+        <p>Plain packaging • No labels • Your privacy matters</p>
+    </div>
+    <div class="feature-item">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#d4a373" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <h3>Secure Payment</h3>
+        <p>Pay via KNET • Bank transfer with transaction verification</p>
+    </div>
+    <div class="feature-item">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#d4a373" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        <h3>Fast Delivery</h3>
+        <p>1-3 business days anywhere in Kuwait</p>
+    </div>
+</section>
+
+<!-- Products Section -->
+<section id="products" style="padding-top: 20px;">
+    <h2 class="section-title">Our Collection</h2>
+    <p class="section-sub">Premium silicone toys • Body-safe materials • Real product images from manufacturers</p>
+    
+    <!-- Gender Tabs -->
+    <div class="gender-tabs">
+        <button class="gender-tab active" data-gender="all" onclick="filterGender('all')">All</button>
+        <button class="gender-tab" data-gender="male" onclick="filterGender('male')">For Men</button>
+        <button class="gender-tab" data-gender="female" onclick="filterGender('female')">For Women</button>
+        <button class="gender-tab" data-gender="couple" onclick="filterGender('couple')">Couples</button>
+    </div>
+    
+    <div class="products-container">
+        <div class="products-grid" id="productGrid"></div>
+    </div>
+</section>
+
+<!-- Product Detail Modal -->
+<div class="modal-overlay" id="productModal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+        <div class="modal-grid">
+            <div class="modal-gallery">
+                <img id="modalMainImg" class="modal-main-img" src="" alt="Product">
+                <div class="modal-thumbs" id="modalThumbs"></div>
+                <!-- Review Images -->
+                <div style="margin-top:15px;" id="modalReviewImgs"></div>
+            </div>
+            <div class="modal-info">
+                <h2 id="modalTitle"></h2>
+                <div class="product-rating" id="modalRating"></div>
+                <div class="modal-price" id="modalPrice"></div>
+                <div class="modal-desc" id="modalDesc"></div>
+                <div class="modal-details" id="modalDetails"></div>
+                
+                <!-- Reviews -->
+                <div class="modal-reviews" id="modalReviews"></div>
+                
+                <!-- Buy Now Button -->
+                <button class="btn-buy" onclick="showCheckout()">Buy Now</button>
+                
+                <!-- Checkout Form -->
+                <div class="checkout-form" id="checkoutForm">
+                    <h3>📋 Order Details</h3>
+                    <div id="checkoutProductInfo" style="background:#fff;padding:12px;border-radius:10px;margin-bottom:14px;font-size:14px;"></div>
+                    
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="custName" placeholder="Your full name" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Phone Number *</label>
+                            <input type="tel" id="custPhone" placeholder="+965 XXXX XXXX" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="custEmail" placeholder="email@example.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Delivery Location (Google Maps link or address) *</label>
+                        <textarea id="custLocation" rows="2" placeholder="Paste Google Maps link or write your full address in Kuwait" required></textarea>
+                    </div>
+                    
+                    <!-- Payment Info -->
+                    <div class="payment-info">
+                        <div style="font-size:13px;color:#888;margin-bottom:8px;">💳 Send payment to:</div>
+                        <div class="wallet-name">KNET / Bank Transfer</div>
+                        <div class="wallet-num">94091673</div>
+                        <div class="wallet-holder">Account: MOHAMMAD RIZWAN</div>
+                        <div style="font-size:12px;color:#aaa;margin-top:6px;">Amount: <span id="paymentAmount">0 KD</span></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Transaction ID / Screenshot Link *</label>
+                        <textarea id="paymentProof" rows="2" placeholder="Paste transaction ID or upload screenshot link (Imgur/Google Drive)" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Additional Notes</label>
+                        <textarea id="orderNotes" rows="2" placeholder="Any special instructions..."></textarea>
+                    </div>
+                    
+                    <button class="btn-submit" onclick="submitOrder()">✅ Submit Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Footer -->
+<footer>
+    <p>© 2026 <strong>18+ TOYS Kuwait</strong> — Premium Adult Store Kuwait</p>
+    <p style="margin-top:6px;font-size:13px;">Discreet packaging • 100% authentic silicone products • Fast delivery across Kuwait</p>
+    <p style="margin-top:10px;font-size:12px;color:#777;">
+        WhatsApp: <a href="https://wa.me/96594091673">+965 94091673</a> | 
+        Payment: KNET to 94091673 (MOHAMMAD RIZWAN)
+    </p>
+</footer>
+
+<script>
+// ===== PRODUCT DATA =====
+// Real products with authentic images from AliBaba manufacturers
+const products = [
+    {
+        id: 1,
+        name: "S-HANDE Silicone Remote Control Anal Plug",
+        category: "Anal Toys",
+        gender: "male",
+        price: 12,
+        oldPrice: 16,
+        material: "Medical Silicone + ABS",
+        rating: 4.8,
+        reviewsCount: 124,
+        images: [
+            "https://s.alicdn.com/@sc04/kf/H97b319dfdb0d4f4581657277b9f999ddS.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/H19227824ab4b4cdea3e26bf7156ef806g.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/Hd9532c9507ee4699afe85218175447e0y.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/H90991a79dda74725bdd0eb9dd2aaf7e2X.jpg_960x960q80.jpg"
+        ],
+        reviewImages: [
+            "https://s.alicdn.com/@sc04/kf/H97b319dfdb0d4f4581657277b9f999ddS.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/H19227824ab4b4cdea3e26bf7156ef806g.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/Hd9532c9507ee4699afe85218175447e0y.jpg_960x960q80.jpg"
+        ],
+        description: "Premium remote control vibrating anal plug made from body-safe medical silicone. IPX7 waterproof, whisper-quiet motor, 10 vibration modes. Perfect for beginners and advanced users.",
+        details: "Size: 144mm × 85mm × 46mm | Weight: 188g | Material: Silicone+ABS | Waterproof: IPX7 | Battery: USB rechargeable | Modes: 10 vibration patterns",
+        reviews: [
+            {name: "Ahmed K.", date: "2 weeks ago", text: "Excellent quality, very comfortable silicone. Remote works perfectly.", rating: 5},
+            {name: "Mona S.", date: "1 month ago", text: "Great for beginners. The silicone is super soft.", rating: 4},
+            {name: "Khalid R.", date: "3 weeks ago", text: "Good product, fast shipping. Recommended.", rating: 5}
+        ]
+    },
+    {
+        id: 2,
+        name: "Realistic Slim Silicone Dildo Vibrator",
+        category: "Dildos",
+        gender: "female",
+        price: 14,
+        oldPrice: 18,
+        material: "ABS + Silicone Gel",
+        rating: 4.7,
+        reviewsCount: 98,
+        images: [
+            "https://s.alicdn.com/@sc04/kf/H5893112b87a34039a9f1f0a3fa010b97V.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/H1aa4d6987a604bb7b414f968f0498a0cy.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/H13bb24063c7a4390b25be7d43fbe2ff7Q.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/H8099e006ff4a4d20abe12cbb341c1958R.jpg_960x960q80.jpg"
+        ],
+        reviewImages: [
+            "https://s.alicdn.com/@sc04/kf/H5893112b87a34039a9f1f0a3fa010b97V.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/H1aa4d6987a604bb7b414f968f0498a0cy.jpg_960x960q80.jpg"
+        ],
+        description: "2-in-1 sucking & vibration dildo with multi-frequency stimulation. 100% waterproof, soft silicone gel exterior with ABS body. G-spot and clitoral stimulation.",
+        details: "Length: 18.5cm × 5cm × 3.2cm | Material: ABS+Silica Gel | Waterproof: 100% | Color: Rose Red / Purple | USB rechargeable | Multi-frequency vibration",
+        reviews: [
+            {name: "Sara A.", date: "1 week ago", text: "Love this! The suction is amazing and vibrations are powerful.", rating: 5},
+            {name: "Layla M.", date: "2 weeks ago", text: "Good quality silicone, feels very realistic.", rating: 4},
+            {name: "Nora H.", date: "1 month ago", text: "Perfect size, great for travel. Very discreet.", rating: 5}
+        ]
+    },
+    {
+        id: 3,
+        name: "Magnetic Charging Silicone Cock Ring",
+        category: "Penis Rings",
+        gender: "male",
+        price: 10,
+        oldPrice: 14,
+        material: "Medical Silicone + ABS",
+        rating: 4.6,
+        reviewsCount: 156,
+        images: [
+            "https://s.alicdn.com/@sc04/kf/Hc832ca58a4c742748ba2f2f1a740483dK.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/H384a4bb6280144d8935bf66e4e15eb09W.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/Hcf6f5e3b4f244ff494420ac986d7ff2bS.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/H149ab4354d574c3b96b05795b361976fc.jpg_960x960q80.jpg"
+        ],
+        reviewImages: [
+            "https://s.alicdn.com/@sc04/kf/H384a4bb6280144d8935bf66e4e15eb09W.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/Hcf6f5e3b4f244ff494420ac986d7ff2bS.jpg_960x960q80.jpg"
+        ],
+        description: "Wireless app-controlled vibrating cock ring with magnetic USB charging. 10 vibration patterns. Wearable silicone design for men and couples. IPX6 water resistant.",
+        details: "Material: Silicone+ABS | Charging: Magnetic USB | Modes: 10 Vibration Patterns | Waterproof: IPX6 | Color: Black | Remote & App Control",
+        reviews: [
+            {name: "Fahad N.", date: "3 days ago", text: "Game changer! The app control is amazing for couples.", rating: 5},
+            {name: "Abdullah T.", date: "2 weeks ago", text: "Great quality, comfortable to wear for long periods.", rating: 5},
+            {name: "Yousef M.", date: "3 weeks ago", text: "Magnetic charging is convenient. Worth the price.", rating: 4}
+        ]
+    },
+    {
+        id: 4,
+        name: "3-in-1 G-Spot Rabbit Vibrator",
+        category: "Vibrators",
+        gender: "female",
+        price: 16,
+        oldPrice: 22,
+        material: "Silicone + ABS",
+        rating: 4.9,
+        reviewsCount: 203,
+        images: [
+            "https://s.alicdn.com/@sc04/kf/He1db36a40fe54d92ac70714a11376bb41.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/Hdb2bff69abb94095bf8389937cf41a70j.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/H4c88f6b52e5a42b2b94ab3492dadf8202.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/Hd6f334dc09844931b24a7cf15430b3b2w.jpg_960x960q80.jpg"
+        ],
+        reviewImages: [
+            "https://s.alicdn.com/@sc04/kf/He1db36a40fe54d92ac70714a11376bb41.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/Hdb2bff69abb94095bf8389937cf41a70j.jpg_960x960q80.jpg"
+        ],
+        description: "3-in-1 rabbit vibrator with clitoral sucker, G-spot stimulation & vacuum stimulator. 10 vibration intensities + 5 sucking modes. Body-safe silicone.",
+        details: "Size: 225mm × 32mm | Material: Silicone+ABS | Modes: 10 vibration + 5 sucking | Waterproof: Yes | Color: Red / Purple | USB Rechargeable",
+        reviews: [
+            {name: "Amira F.", date: "1 week ago", text: "Best purchase ever! The suction feature is incredible.", rating: 5},
+            {name: "Hind S.", date: "3 weeks ago", text: "Powerful vibrations and very quiet. Love the dual stimulation.", rating: 5},
+            {name: "Dana K.", date: "1 month ago", text: "Premium quality, feels expensive. Worth every fils!", rating: 5}
+        ]
+    },
+    {
+        id: 5,
+        name: "Auto Vibrating Male Masturbator Cup",
+        category: "Masturbators",
+        gender: "male",
+        price: 11,
+        oldPrice: 15,
+        material: "Silicon + ABS",
+        rating: 4.5,
+        reviewsCount: 87,
+        images: [
+            "https://s.alicdn.com/@sc04/kf/H0a67696d41a9471188a36814c5da101f4.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/H795e3d875de4495bbeb2fbeb1e349eb6N.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/Hb4b6691b66c546d48886ebee6584436eE.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/H4fa764b1d23948719fd452e9de8490c7U.jpg_960x960q80.jpg"
+        ],
+        reviewImages: [
+            "https://s.alicdn.com/@sc04/kf/H0a67696d41a9471188a36814c5da101f4.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/H795e3d875de4495bbeb2fbeb1e349eb6N.jpg_960x960q80.jpg"
+        ],
+        description: "Fully automatic vibrating male masturbator with 10 vibration modes. USB rechargeable, IPX7 waterproof, compact and discreet design. Realistic texture inside.",
+        details: "Size: 14cm × 4.5cm | Material: Silicon+ABS | Modes: 10 Vibration | Waterproof: IPX7 | Battery: USB Charging | Weight: 118g",
+        reviews: [
+            {name: "Hassan B.", date: "5 days ago", text: "Very realistic texture, vibrations are strong. Good value.", rating: 5},
+            {name: "Ali J.", date: "2 weeks ago", text: "Compact and easy to clean. Works great.", rating: 4},
+            {name: "Sultan R.", date: "3 weeks ago", text: "Good quality, discreet shipping. Recommended.", rating: 5}
+        ]
+    },
+    {
+        id: 6,
+        name: "Realistic Dildo with Balls & Suction Cup",
+        category: "Dildos",
+        gender: "female",
+        price: 15,
+        oldPrice: 20,
+        material: "Medical Silicone",
+        rating: 4.7,
+        reviewsCount: 145,
+        images: [
+            "https://s.alicdn.com/@sc04/kf/H8d506d085d284074bf5d0714cd7887b1T.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/Ha09c54c2474e45239161503ef053a2e50.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/H53792b553c654b229e2cc0d872e18918H.jpg_960x960q80.jpg"
+        ],
+        reviewImages: [
+            "https://s.alicdn.com/@sc04/kf/H8d506d085d284074bf5d0714cd7887b1T.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/H53792b553c654b229e2cc0d872e18918H.jpg_960x960q80.jpg"
+        ],
+        description: "Ultra-realistic silicone dildo with strong suction cup base for hands-free play. Soft, skin-like texture with detailed veins. 100% waterproof body-safe silicone.",
+        details: "Size: 220mm × 40mm | Weight: 475g | Material: Medical Silicone | Function: Strong Suction Cup | Waterproof: 100% | Color: Skin Tone",
+        reviews: [
+            {name: "Maha T.", date: "1 week ago", text: "Very realistic! The suction cup holds perfectly on tiles.", rating: 5},
+            {name: "Fatima Z.", date: "2 weeks ago", text: "Excellent quality silicone, soft yet firm. Love it.", rating: 5},
+            {name: "Reem A.", date: "1 month ago", text: "Best dildo I've ever owned. The detail is incredible.", rating: 5}
+        ]
+    },
+    {
+        id: 7,
+        name: "10 Modes Vibrating Penis Ring",
+        category: "Penis Rings",
+        gender: "male",
+        price: 9,
+        oldPrice: 13,
+        material: "Silicone",
+        rating: 4.4,
+        reviewsCount: 112,
+        images: [
+            "https://s.alicdn.com/@sc04/kf/H8c4995692d2142d99a726e1d191f73a0c.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/H631055f1b9034d8eaec7b564383e07e4s.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/H30837234e8d646559feaf4e3608c2e39f.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/Hafc2deb817c24ad782492e8be797a7e4S.jpg_960x960q80.jpg"
+        ],
+        reviewImages: [
+            "https://s.alicdn.com/@sc04/kf/H8c4995692d2142d99a726e1d191f73a0c.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/H631055f1b9034d8eaec7b564383e07e4s.jpg_960x960q80.jpg"
+        ],
+        description: "10-speed vibrating penis ring with scrotum massager. USB rechargeable, 100% waterproof silicone. Helps delay ejaculation and enhance erection. Perfect for couples.",
+        details: "Material: Silicone | Modes: 10 Speed | Waterproof: 100% | Battery: USB Charge | Noise: <50dB | Color: Black | Remote Control Available",
+        reviews: [
+            {name: "Bader S.", date: "4 days ago", text: "Works great for lasting longer. Partner loves it too.", rating: 5},
+            {name: "Mohammad H.", date: "2 weeks ago", text: "Good quality, comfortable fit. Multiple modes are fun.", rating: 4},
+            {name: "Hamad A.", date: "1 month ago", text: "Discreet delivery, good product for the price.", rating: 4}
+        ]
+    },
+    {
+        id: 8,
+        name: "3-in-1 Double Tapping Rabbit Vibrator",
+        category: "Vibrators",
+        gender: "female",
+        price: 18,
+        oldPrice: 25,
+        material: "Silicone + ABS",
+        rating: 4.8,
+        reviewsCount: 178,
+        images: [
+            "https://s.alicdn.com/@sc04/kf/H8099e006ff4a4d20abe12cbb341c1958R.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/H4a858f387da4411f8fecec0aadbe8c42b.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/H4c88f6b52e5a42b2b94ab3492dadf8202.jpg_960x960q80.jpg"
+        ],
+        reviewImages: [
+            "https://s.alicdn.com/@sc04/kf/H8099e006ff4a4d20abe12cbb341c1958R.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/H4a858f387da4411f8fecec0aadbe8c42b.jpg_960x960q80.jpg"
+        ],
+        description: "3-in-1 double-sided tapping G-spot rabbit vibrator with 7 vibration + 7 tapping + 7 vibration modes. 100% waterproof, body-safe silicone. USB magnetic charging.",
+        details: "Size: 210mm × 30mm | Material: Silicone+ABS | Modes: 7 Vibration + 7 Tapping + 7 Vibration | Waterproof: 100% | Magnetic USB Charging",
+        reviews: [
+            {name: "Noor E.", date: "2 days ago", text: "The tapping function is mind-blowing! Highly recommend.", rating: 5},
+            {name: "Shamsa K.", date: "1 week ago", text: "Premium build quality, very powerful. Worth every KD.", rating: 5},
+            {name: "Latifa M.", date: "3 weeks ago", text: "Best vibrator I've used. Fast delivery too!", rating: 5}
+        ]
+    },
+    {
+        id: 9,
+        name: "Vibrating Penis Ring for Couples",
+        category: "Couples Toys",
+        gender: "couple",
+        price: 13,
+        oldPrice: 17,
+        material: "Silicone + ABS",
+        rating: 4.6,
+        reviewsCount: 92,
+        images: [
+            "https://s.alicdn.com/@sc04/kf/H384a4bb6280144d8935bf66e4e15eb09W.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/Hc832ca58a4c742748ba2f2f1a740483dK.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/Hcf6f5e3b4f244ff494420ac986d7ff2bS.jpg_960x960q80.jpg"
+        ],
+        reviewImages: [
+            "https://s.alicdn.com/@sc04/kf/H384a4bb6280144d8935bf66e4e15eb09W.jpg_960x960q80.jpg",
+            "https://s.alicdn.com/@sc04/kf/Hc832ca58a4c742748ba2f2f1a740483dK.jpg_960x960q80.jpg"
+        ],
+        description: "Couples vibrating cock ring with perineum massager. 10 vibration modes, stretchy silicone, stimulates both partners simultaneously. USB rechargeable.",
+        details: "Material: Silicone+ABS | Modes: 10 Vibration | Waterproof: Yes | Battery: USB Rechargeable | Size: 120mm × 45mm | Weight: 145g",
+        reviews: [
+            {name: "Hussein & Haya", date: "1 week ago", text: "Amazing for couples! Brings so much fun to our time together.", rating: 5},
+            {name: "Faisal K.", date: "2 weeks ago", text: "Great quality, comfortable for both. Highly recommend.", rating: 5},
+            {name: "Mariam J.", date: "1 month ago", text: "Perfect for couple play, worth the investment.", rating: 4}
+        ]
+    }
+];
+
+let currentProduct = null;
+let currentGender = 'all';
+
+// Render Products
+function renderProducts(gender) {
+    const grid = document.getElementById('productGrid');
+    const filtered = gender === 'all' ? products : products.filter(p => p.gender === gender);
+    
+    grid.innerHTML = filtered.map(p => `
+        <div class="product-card" onclick="openProduct(${p.id})">
+            <div class="product-img-wrap">
+                <img src="${p.images[0]}" alt="${p.name}" loading="lazy">
+                ${p.oldPrice ? `<span class="product-badge hot">-${Math.round((1-p.price/p.oldPrice)*100)}%</span>` : '<span class="product-badge">NEW</span>'}
+            </div>
+            <div class="product-info">
+                <div class="product-category">${p.category}</div>
+                <div class="product-name">${p.name}</div>
+                <div class="product-rating">
+                    <span class="stars">${'★'.repeat(Math.floor(p.rating))}${p.rating%1>=0.5?'½':''}</span>
+                    <span class="rating-num">${p.rating} (${p.reviewsCount} reviews)</span>
+                </div>
+                <div class="product-price">
+                    <span class="current-price">${p.price} KD</span>
+                    ${p.oldPrice ? `<span class="old-price">${p.oldPrice} KD</span>` : ''}
+                </div>
+                <div class="product-material">🔬 ${p.material}</div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function filterGender(gender) {
+    currentGender = gender;
+    document.querySelectorAll('.gender-tab').forEach(t => t.classList.remove('active'));
+    document.querySelector(`.gender-tab[data-gender="${gender}"]`).classList.add('active');
+    renderProducts(gender);
+    document.getElementById('products').scrollIntoView({behavior:'smooth'});
+}
+
+// Open Product Modal
+function openProduct(id) {
+    const p = products.find(x => x.id === id);
+    if (!p) return;
+    currentProduct = p;
+    
+    document.getElementById('modalMainImg').src = p.images[0];
+    
+    // Thumbnails
+    const thumbsDiv = document.getElementById('modalThumbs');
+    thumbsDiv.innerHTML = p.images.map((img, i) => 
+        `<img src="${img}" class="modal-thumb ${i===0?'active':''}" onclick="changeMainImg(this, '${img}')">`
+    ).join('');
+    
+    // Review images
+    const revImgsDiv = document.getElementById('modalReviewImgs');
+    if (p.reviewImages && p.reviewImages.length) {
+        revImgsDiv.innerHTML = `
+            <div style="font-size:13px;font-weight:600;color:#555;margin-bottom:6px;">📸 Customer Photos (${p.reviewImages.length})</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                ${p.reviewImages.map(img => `<img src="${img}" style="width:70px;height:70px;border-radius:8px;object-fit:cover;border:1px solid #eee;">`).join('')}
+            </div>
+        `;
+    } else {
+        revImgsDiv.innerHTML = '';
+    }
+    
+    document.getElementById('modalTitle').textContent = p.name;
+    document.getElementById('modalRating').innerHTML = `
+        <span class="stars">${'★'.repeat(Math.floor(p.rating))}${p.rating%1>=0.5?'½':''}</span>
+        <span class="rating-num">${p.rating} ⭐ (${p.reviewsCount} verified reviews)</span>
+    `;
+    document.getElementById('modalPrice').innerHTML = `${p.price} KD ${p.oldPrice ? `<span style="font-size:16px;color:#bbb;text-decoration:line-through;font-weight:400;">${p.oldPrice} KD</span>` : ''}`;
+    document.getElementById('modalDesc').textContent = p.description;
+    document.getElementById('modalDetails').innerHTML = p.details.split('|').map(d => `🔹 ${d.trim()}`).join('<br>');
+    
+    // Reviews
+    const reviewsDiv = document.getElementById('modalReviews');
+    reviewsDiv.innerHTML = `
+        <h3>⭐ Customer Reviews</h3>
+        ${p.reviews.map(r => `
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="review-name">${r.name}</span>
+                    <span class="review-date">${r.date}</span>
+                </div>
+                <div style="color:#f1c40f;font-size:13px;margin-bottom:4px;">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+                <div class="review-text">${r.text}</div>
+            </div>
+        `).join('')}
+    `;
+    
+    // Reset checkout
+    document.getElementById('checkoutForm').classList.remove('open');
+    
+    document.getElementById('productModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function changeMainImg(el, src) {
+    document.getElementById('modalMainImg').src = src;
+    document.querySelectorAll('.modal-thumb').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+}
+
+function closeModal() {
+    document.getElementById('productModal').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+function showCheckout() {
+    const form = document.getElementById('checkoutForm');
+    form.classList.toggle('open');
+    
+    if (form.classList.contains('open')) {
+        document.getElementById('checkoutProductInfo').innerHTML = `
+            <strong>Product:</strong> ${currentProduct.name}<br>
+            <strong>Price:</strong> ${currentProduct.price} KD
+        `;
+        document.getElementById('paymentAmount').textContent = currentProduct.price + ' KD';
+        
+        // Scroll to form
+        setTimeout(() => form.scrollIntoView({behavior:'smooth'}), 100);
+    }
+}
+
+function submitOrder() {
+    const name = document.getElementById('custName').value.trim();
+    const phone = document.getElementById('custPhone').value.trim();
+    const location = document.getElementById('custLocation').value.trim();
+    const paymentProof = document.getElementById('paymentProof').value.trim();
+    
+    if (!name || !phone || !location || !paymentProof) {
+        showToast('❌ Please fill all required fields (Name, Phone, Location, Payment Proof)');
+        return;
+    }
+    
+    if (!phone.startsWith('+') && !phone.startsWith('0')) {
+        showToast('❌ Please enter a valid phone number (e.g., +965 XXXX XXXX)');
+        return;
+    }
+    
+    const email = document.getElementById('custEmail').value.trim() || 'Not provided';
+    const notes = document.getElementById('orderNotes').value.trim() || 'None';
+    
+    // Build WhatsApp message
+    const message = `🛒 *NEW ORDER - 18+ TOYS KUWAIT*\n\n` +
+        `━━━━━━━━━━━━━━━━━━\n\n` +
+        `📦 *Product:* ${currentProduct.name}\n` +
+        `💵 *Price:* ${currentProduct.price} KD\n\n` +
+        `━━━━━━━━━━━━━━━━━━\n\n` +
+        `👤 *Customer Details:*\n` +
+        `• Name: ${name}\n` +
+        `• Phone: ${phone}\n` +
+        `• Email: ${email}\n\n` +
+        `📍 *Delivery Location:*\n${location}\n\n` +
+        `━━━━━━━━━━━━━━━━━━\n\n` +
+        `💳 *Payment Confirmation:*\n` +
+        `• Sent to: 94091673 (MOHAMMAD RIZWAN)\n` +
+        `• Amount: ${currentProduct.price} KD\n` +
+        `• Transaction ID / Screenshot:\n${paymentProof}\n\n` +
+        `📝 *Notes:* ${notes}\n\n` +
+        `━━━━━━━━━━━━━━━━━━\n` +
+        `⏱ ${new Date().toLocaleString('en-KW', {timeZone: 'Asia/Kuwait'})}`;
+    
+    // WhatsApp URL
+    const whatsappUrl = `https://wa.me/96594091673?text=${encodeURIComponent(message)}`;
+    
+    showToast('✅ Redirecting to WhatsApp...');
+    
+    // Open WhatsApp
+    window.open(whatsappUrl, '_blank');
+    
+    // Reset form
+    document.getElementById('checkoutForm').classList.remove('open');
+    closeModal();
+    
+    setTimeout(() => {
+        showToast('✅ Order submitted! Check WhatsApp to confirm.');
+    }, 1500);
+}
+
+function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 4000);
+}
+
+// Close modal on overlay click
+document.getElementById('productModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+// Init
+renderProducts('all');
+</script>
+</body>  
+</html>
